@@ -3,6 +3,8 @@ using System.Collections;
 
 public class TouchMoveGearVR : MonoBehaviour {
 
+	public Main MainScript;
+
     Camera MainCam;
 	public bool GearVRMode = false;
 	TextMesh debugText;
@@ -23,21 +25,22 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		MainScript = GameObject.Find("Main").GetComponent<Main>();
         MainCam = Camera.main;
         debugText = GameObject.Find ("debugText").GetComponent<TextMesh> ();
 		rb = GetComponent<Rigidbody> ();
+
+		// take control over
+		if (MainScript.HumanPlayerID != -1) {
+			transform.position = MainScript.startPoint [MainScript.HumanPlayerID];
+		}
 	}
 	
 	// Update is called once per frame
 	void Update (){
 
-        //print ("mousedown: " + mouseIsDown);
-        //print(MainCam.transform.localEulerAngles.y);
-        //transform.localEulerAngles = new Vector3(0, MainCam.transform.localEulerAngles.y, 0);
-
         if (!GearVRMode) Move();
        
-
         if (Input.GetMouseButtonDown(0))
         {
             mouseIsDown = true;
@@ -96,21 +99,14 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 	void Move(){
 		if (GearVRMode) {
-			dirZ = (1280 - Input.mousePosition.x) / 300;
-			//dirX = (720 - Input.mousePosition.y) / 300;
+			dirZ = (1280 - Input.mousePosition.x) / 300; //dirX = (720 - Input.mousePosition.y) / 300;
 		} else {
 			dirZ = Input.GetAxis ("Vertical");
-			//dirX = Input.GetAxis ("Horizontal");
 		}
-
 
         Vector3 dir = Quaternion.Euler(new Vector3 (0,MainCam.transform.localEulerAngles.y,0)) * Vector3.forward;
         transform.position += dirZ * dir * force;
 
-        //transform.position += new Vector3 (dirX*force, 0, dirZ*force);
-        //transform.position += Vector3.forward * dirZ*force;
-
-        //debugText.text = " "+Input.mousePosition.y;
         debugText.text = dirZ+"\n"+dirX;
 	}
 }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-   public Main MainScript;
+	public Main MainScript;
 
     public int playerID;
     public Vector3 playerPos;
@@ -13,17 +13,29 @@ public class Player : MonoBehaviour {
     public int curIsland;
 
     Rigidbody rb;
+	Collider col;
 
     // Use this for initialization
     void Start () {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
         rb = GetComponent<Rigidbody>();
+		col = GetComponent<Collider>();
         transform.Find("Cube").GetComponent<Renderer>().material.color = _color;
         curIsland = playerID;
+
+		//deactivate rigidbody when on user control
+		if (MainScript.HumanPlayerID == playerID) {
+			rb.isKinematic = false;
+			col.enabled = false;
+		}
     }
 	
 	void Update()
     {
+		if (MainScript.HumanPlayerID == playerID) {
+			transform.position = MainScript.CamContainer.transform.position;
+		}
+
         //var rnd = Random.Range(-.1f, .1f);
         //playerPos = transform.position + new Vector3(rnd, 0, rnd);
 
