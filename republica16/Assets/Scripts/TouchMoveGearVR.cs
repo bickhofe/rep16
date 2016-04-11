@@ -35,11 +35,15 @@ public class TouchMoveGearVR : MonoBehaviour {
         //print(MainCam.transform.localEulerAngles.y);
         //transform.localEulerAngles = new Vector3(0, MainCam.transform.localEulerAngles.y, 0);
 
-        if (Input.GetMouseButtonDown (0)) {
-			mouseIsDown = true;
-			Move ();
-		}
+        if (!GearVRMode) Move();
+       
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouseIsDown = true;
+            if (GearVRMode) Move ();
+        }
+        
 		if (Input.GetMouseButtonUp (0)) {
 			mouseIsDown = false;
 			dirZ = dirX = 0;
@@ -73,7 +77,6 @@ public class TouchMoveGearVR : MonoBehaviour {
 			rb.angularVelocity = Vector3.zero;
 			transform.position = new Vector3 (1.6f, 1f, -11.3f);
 			transform.eulerAngles = Vector3.zero;
-
 		}
 			
 	}

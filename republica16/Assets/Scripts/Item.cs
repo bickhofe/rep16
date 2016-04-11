@@ -1,39 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Item : MonoBehaviour
+{
 
-   public Main MainScript;
+    public Main MainScript;
 
-    public int playerID;
-    public Vector3 playerPos;
-    public float playerAngle;
-    public Vector3 playerHead;
-    public Color _color;
+    public int itemID;
+    public int zoneID;
+    public Vector3 itemPos;
     public int curIsland;
 
     Rigidbody rb;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
         rb = GetComponent<Rigidbody>();
-        transform.Find("Cube").GetComponent<Renderer>().material.color = _color;
-        curIsland = playerID;
     }
-	
-	void Update()
+
+    void Update()
     {
         //var rnd = Random.Range(-.1f, .1f);
-        //playerPos = transform.position + new Vector3(rnd, 0, rnd);
+        //itemPos = transform.position + new Vector3(rnd, 0, rnd);
 
-        playerPos = transform.position;
-
+        itemPos = transform.position;
     }
 
     void OnTriggerEnter(Collider Portal)
     {
         print("Enter portal");
+
+        // ID der Insel des Colliders finden
         int IslandID = Portal.transform.parent.GetComponent<Island>().IslandID;
 
         if (IslandID == 0) curIsland = 3;
@@ -41,14 +40,15 @@ public class Player : MonoBehaviour {
         else if (IslandID == 2) curIsland = 0;
         else if (IslandID == 3) curIsland = 1;
 
-        TeleportPlayer(MainScript.startPoint[curIsland]);
+        TeleportItem(MainScript.startPoint[curIsland]);
     }
 
-    public void UpdatePlayer () {
-        transform.position = playerPos;
+    public void UpdateItem()
+    {
+        transform.position = itemPos;
     }
 
-    public void TeleportPlayer(Vector3 teleportPos)
+    public void TeleportItem(Vector3 teleportPos)
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -56,11 +56,11 @@ public class Player : MonoBehaviour {
         transform.eulerAngles = Vector3.zero;
     }
 
-    public void ResetPlayer(Vector3 startPos)
+    public void ResetItem(Vector3 startPos)
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = startPos;
-        transform.eulerAngles = Vector3.zero; 
+        transform.eulerAngles = Vector3.zero;
     }
 }

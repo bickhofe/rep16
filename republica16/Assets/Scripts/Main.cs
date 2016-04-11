@@ -4,35 +4,66 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour {
 
-    List<Player> players = new List<Player>();    // a real-world example of declaring a List of 'GameObjects'
-    public Player Player0;
-    public Player Player1;
-    public Player Player2;
-    public Player Player3;
+    public Vector3[] startPoint;
+
+    List<Player> players = new List<Player>();
+    public Player[] Player;
+
+    List<Item> items = new List<Item>();
+    public Item[] Items;
+
+    float time = 0;
+    public float updateTime = 1;
 
     // Use this for initialization
     void Start () {
 
-        players.Add(Player0);
-        players.Add(Player1);
-        players.Add(Player2);
-        players.Add(Player3);                                      // add an item to the end of the List
+        // add an item to the end of the List
+        for (int i = 0; i<Player.Length; i++) {
+            players.Add(Player[i]);
+        }
+
         //myList[i] = newItem;                                  // change the value in the List at position i
         //Type thisItem = List[i];                              // retrieve the item at position i
         //myList.RemoveAt(i);
-        print(players.Count);
+        // print(players.Count);
 
-        foreach(Player data in players)
+        //init position
+        foreach (Player data in players)
         {
-            print("player: " + data);
+            data.playerPos = startPoint[data.playerID];
         }
+    }
 
+    void Update() {
+        //timer
+        if (time < updateTime) time += Time.deltaTime;
+        else
+        {
+            UpdatePlayers();
+            UpdateItems();
+            print("update");
+        }
     }
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	void UpdatePlayers() {
+        foreach (Player data in players)
+        {
+            if (data.playerPos.y < -25) data.ResetPlayer(startPoint[data.curIsland]);
+            else data.UpdatePlayer();
+        }
+        time = 0;
+    }
+
+    void UpdateItems()
+    {
+        foreach (Item data in items)
+        {
+            if (data.itemPos.y < -25) data.ResetItem(startPoint[data.curIsland]);
+            else data.UpdateItem();
+        }
+        time = 0;
+    }
 }
 
 
