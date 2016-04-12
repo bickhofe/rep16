@@ -93,7 +93,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 		if (col.gameObject.tag == "Ground")
 		{
 			canJump = true;
-			print ("landed");
+			//print ("landed");
 		}
 	}
 

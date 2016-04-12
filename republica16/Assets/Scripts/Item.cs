@@ -25,7 +25,8 @@ public class Item : MonoBehaviour
         //var rnd = Random.Range(-.1f, .1f);
         //itemPos = transform.position + new Vector3(rnd, 0, rnd);
 
-        itemPos = transform.position;
+        //itemPos = transform.position;
+        //transform.position = itemPos;
     }
 
     void OnTriggerEnter(Collider Portal)
