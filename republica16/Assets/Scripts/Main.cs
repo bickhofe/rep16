@@ -7,10 +7,7 @@ public class Main : MonoBehaviour {
 	public int HumanPlayerID = -1;
 	public GameObject CamContainer;
 
-    Vector3 center0 = new Vector3(0, 0, -10);
-    Vector3 center1 = new Vector3(-10, 0, 0);
-    Vector3 center2 = new Vector3(0, 0, 10);
-    Vector3 center3 = new Vector3(10, 0, 0);
+	public Vector3[] islandCenterPoints;
 
     public Vector3[] startPoint; //drop off
 
@@ -21,6 +18,12 @@ public class Main : MonoBehaviour {
     public List<Item> items = new List<Item>();
     public Item[] Items;
     int[] spawnPointList = new int[20];
+
+	public float radius = 2;
+	Vector3 center;
+	float angle;
+	Vector3 itemPos;
+	int itemCount;
 
     float time = 0;
     public float updateTime = 1;
@@ -108,49 +111,24 @@ public class Main : MonoBehaviour {
             //print (id);
         }
 
-        PlaceItems();
+		PlaceItemsAroundHole();
     }
 
-    void PlaceItems() {
-        //int radius = 2;
+    void PlaceItemsAroundHole() {
 
-        //for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 4; i++) {
+			center = islandCenterPoints[i];
 
-        //    // "i" now represents the progress around the circle from 0-1
-        //    // we multiply by 1.0 to ensure we get a fraction as a result.
-        //    float step = i / 5;
-        //    // get the angle for this step (in radians, not degrees)
-        //    float angle = step * Mathf.PI * 2;
-        //    // the X &amp; Y position for this angle are calculated using Sin &amp; Cos
-        //    float x = Mathf.Sin(angle) * radius;
-        //    float z = Mathf.Cos(angle) * radius;
+			for (int j = 0; j < 5; j++) {
+				angle = j*72 * Mathf.Deg2Rad;
+				float x = Mathf.Sin(angle) * radius;
+				float y = Mathf.Cos(angle) * radius;
+				itemPos = new Vector3 (x,0,y) + center;
+				Items [itemCount].transform.position = itemPos;
+				itemCount++;
+			}
 
-        //    Vector3 pos = new Vector3(x,0,z) + center0;
-
-        //    Items[i].itemPos = pos;
-        //    Items[i].UpdateItem();
-        //}
-
-
-        //code to try
-
-        //Vector3 RandomCircle (Vector3 center, float radius){
-        //    Vector3 ang = Random.value * 360;
-        //    Vector3 pos;
-        //    pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
-        //    pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
-        //    pos.z = center.z;
-        //    return pos;
-        //}
-        
-        //     Vector3 center = transform.position;
-        //for (i = 0; i < numObjects; i++) {
-        //    Vector3 pos = RandomCircle(center, 10);
-        //    Vector3 rot = Quaternion.FromToRotation(Vector3.forward, center - pos);
-        //    Instantiate(prefab, pos, rot);
-        //}
-
-
+		}
     }
 }
 
