@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Item : MonoBehaviour
 {
-
     public Main MainScript;
 
     public int itemID;
@@ -14,23 +13,20 @@ public class Item : MonoBehaviour
     Rigidbody rb;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        //var rnd = Random.Range(-.1f, .1f);
+    void Update() {
+       // var rnd = Random.Range(-.01f, .01f);
         //itemPos = transform.position + new Vector3(rnd, 0, rnd);
 
         //itemPos = transform.position;
         //transform.position = itemPos;
     }
 
-    void OnTriggerEnter(Collider Portal)
-    {
+    void OnTriggerEnter(Collider Portal) {
         print("Enter portal");
 
         // ID der Insel des Colliders finden
@@ -44,21 +40,18 @@ public class Item : MonoBehaviour
         TeleportItem(MainScript.startPoint[curIsland]);
     }
 
-    public void UpdateItem()
-    {
+    public void UpdateItem() {
         transform.position = itemPos;
     }
 
-    public void TeleportItem(Vector3 teleportPos)
-    {
+    public void TeleportItem(Vector3 teleportPos) {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;
         transform.eulerAngles = Vector3.zero;
     }
 
-    public void ResetItem(Vector3 startPos)
-    {
+    public void ResetItem(Vector3 startPos) {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = startPos;

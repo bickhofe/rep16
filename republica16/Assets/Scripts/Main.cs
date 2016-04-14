@@ -7,6 +7,8 @@ public class Main : MonoBehaviour {
 	public int HumanPlayerID = -1;
 	public GameObject CamContainer;
 
+    // 0=food, 1=tech, 2=plant, 3=tools
+
 	public Vector3[] islandCenterPoints;
 
     public Vector3[] startPoint; //drop off
@@ -19,7 +21,7 @@ public class Main : MonoBehaviour {
     public Item[] Items;
     int[] spawnPointList = new int[20];
 
-	public float radius = 2;
+	public float radius = 3;
 	Vector3 center;
 	float angle;
 	Vector3 itemPos;
@@ -97,11 +99,21 @@ public class Main : MonoBehaviour {
         }
 
         //shuffle
+        int rnd;
+        int rndValue;
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
-                int rnd = Random.Range(0, spawnIDs.Count);
-                while (rnd >= i * 5 && rnd < i * 5 + 5) rnd = Random.Range(0, spawnIDs.Count);
-                spawnPoints.Add(spawnIDs[rnd]);
+                rnd = Random.Range(0, spawnIDs.Count); // 0-20 prefilled sorted int's
+                rndValue = spawnIDs[rnd];
+
+                //while (rndValue >= i*5 && rndValue < i*5 + 5) {
+                //    rnd = Random.Range(0, spawnIDs.Count);
+                //    rndValue = spawnIDs[rnd];
+                //}
+
+                print(i + " chosen: " + rndValue);
+                spawnPoints.Add(rndValue);
                 spawnIDs.RemoveAt(rnd);
             }
         }
@@ -111,24 +123,24 @@ public class Main : MonoBehaviour {
             //print (id);
         }
 
-		PlaceItemsAroundHole();
+        PlaceItemsAroundHole();
+
+        for (int i = 0; i < 4; i++) {
+            center = islandCenterPoints[i];
+
+            for (int j = 0; j < 5; j++) {
+                angle = j * 72 * Mathf.Deg2Rad;
+                float x = Mathf.Sin(angle) * radius;
+                float y = Mathf.Cos(angle) * radius;
+                itemPos = new Vector3(x, 2, y) + center;
+                Items[spawnPoints[itemCount]].transform.position = itemPos;
+                itemCount++;
+            }
+        }
     }
 
     void PlaceItemsAroundHole() {
 
-		for (int i = 0; i < 4; i++) {
-			center = islandCenterPoints[i];
-
-			for (int j = 0; j < 5; j++) {
-				angle = j*72 * Mathf.Deg2Rad;
-				float x = Mathf.Sin(angle) * radius;
-				float y = Mathf.Cos(angle) * radius;
-				itemPos = new Vector3 (x,0,y) + center;
-				Items [itemCount].transform.position = itemPos;
-				itemCount++;
-			}
-
-		}
     }
 }
 
