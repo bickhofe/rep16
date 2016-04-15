@@ -19,11 +19,11 @@ public class Item : MonoBehaviour
     }
 
     void Update() {
-       // var rnd = Random.Range(-.01f, .01f);
-        //itemPos = transform.position + new Vector3(rnd, 0, rnd);
+        var rnd = Random.Range(-.01f, .01f);
+        itemPos = transform.position + new Vector3(rnd, 0, rnd);
 
         //itemPos = transform.position;
-        //transform.position = itemPos;
+        transform.position = itemPos;
     }
 
     void OnTriggerEnter(Collider Portal) {

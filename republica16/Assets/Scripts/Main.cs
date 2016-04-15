@@ -7,7 +7,7 @@ public class Main : MonoBehaviour {
 	public int HumanPlayerID = -1;
 	public GameObject CamContainer;
 
-    // 0=food, 1=tech, 2=plant, 3=tools
+    // 0=food, 1=tech, 2=plant, 3=stuff/tools
 
 	public Vector3[] islandCenterPoints;
 
@@ -19,13 +19,15 @@ public class Main : MonoBehaviour {
     //items
     public List<Item> items = new List<Item>();
     public Item[] Items;
-    int[] spawnPointList = new int[20];
+    int[] spawnPointList = new int[16];
 
 	public float radius = 3;
 	Vector3 center;
 	float angle;
 	Vector3 itemPos;
 	int itemCount;
+    int rnd;
+    int rndValue;
 
     float time = 0;
     public float updateTime = 1;
@@ -54,8 +56,8 @@ public class Main : MonoBehaviour {
         else
         {
 			//print("update");
-            UpdatePlayers();
-            UpdateItems();
+            //UpdatePlayers();
+            //UpdateItems();
         }
     }
 	
@@ -87,32 +89,43 @@ public class Main : MonoBehaviour {
     // 0-4 food
     // 5-9 tech
     // 10-14 plants
-    // 15-19 tools
+    // 15-19 stuff
 
     void ShuffleItemSpawnPoints() {
         List<int> spawnIDs = new List<int>();
         List<int> spawnPoints = new List<int>();
 
         //pre-fill
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 16; i++) {
             spawnIDs.Add(i);
         }
 
         //shuffle
-        int rnd;
-        int rndValue;
+        for (int i = 0; i < 4; i++) { //anzahl inseln
+            for (int j = 0; j < 4; j++) { //anzahl items pro insel
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
-                rnd = Random.Range(0, spawnIDs.Count); // 0-20 prefilled sorted int's
+                //bool success = false;
+                ////print("dddd");
+
+                //do {
+
+                //    // find value
+                //    rnd = Random.Range(0, spawnIDs.Count); // 0-16 prefilled sorted int's
+                //    rndValue = spawnIDs[rnd];
+
+                //    // test value
+                //    if (rndValue >= i * 4 && rndValue < i * 4 + 4) {
+                //        success = false;
+                //    } else {
+                //        success = true;
+                //        break;
+                //    }
+                //} while (!success);
+
+                rnd = Random.Range(0, spawnIDs.Count); // 0-16 prefilled sorted int's
                 rndValue = spawnIDs[rnd];
 
-                //while (rndValue >= i*5 && rndValue < i*5 + 5) {
-                //    rnd = Random.Range(0, spawnIDs.Count);
-                //    rndValue = spawnIDs[rnd];
-                //}
-
-                print(i + " chosen: " + rndValue);
+                //print(i + " chosen: " + rndValue);
                 spawnPoints.Add(rndValue);
                 spawnIDs.RemoveAt(rnd);
             }
@@ -123,13 +136,12 @@ public class Main : MonoBehaviour {
             //print (id);
         }
 
-        PlaceItemsAroundHole();
 
         for (int i = 0; i < 4; i++) {
             center = islandCenterPoints[i];
 
-            for (int j = 0; j < 5; j++) {
-                angle = j * 72 * Mathf.Deg2Rad;
+            for (int j = 0; j < 4; j++) {
+                angle = j * 90 * Mathf.Deg2Rad;  //90° um das loch herumn
                 float x = Mathf.Sin(angle) * radius;
                 float y = Mathf.Cos(angle) * radius;
                 itemPos = new Vector3(x, 2, y) + center;
@@ -137,10 +149,6 @@ public class Main : MonoBehaviour {
                 itemCount++;
             }
         }
-    }
-
-    void PlaceItemsAroundHole() {
-
     }
 }
 
