@@ -4,10 +4,17 @@ using System.Collections.Generic;
 
 public class Main : MonoBehaviour {
 
-	public int HumanPlayerID = -1;
+    //debug
+    public TextMesh debugTextObj;
+    public string debugText;
+
+    //serverdaten
+    public int gametime;
+    public string state;
+
+    //player control
+    public int HumanPlayerID = -1;
 	public GameObject CamContainer;
-
-
 
     // 0=food, 1=tech, 2=plant, 3=stuff/tools
 
@@ -36,6 +43,8 @@ public class Main : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        debugTextObj = GameObject.Find("debugText").GetComponent<TextMesh>();
+
         ShuffleItemSpawnPoints();
 
         for (int i = 0; i<Player.Length; i++) {
@@ -53,6 +62,9 @@ public class Main : MonoBehaviour {
     }
 
     void Update() {
+
+        debugTextObj.text = debugText;
+
         //timer
         if (time < updateTime) time += Time.deltaTime;
         else

@@ -7,7 +7,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 
     Camera MainCam;
 	public bool GearVRMode = false;
-	TextMesh debugText;
+	//TextMesh debugText;
 
 	bool mouseIsDown = false;
 	bool doubleClick = false;
@@ -27,7 +27,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 	void Start () {
 		MainScript = GameObject.Find("Main").GetComponent<Main>();
         MainCam = Camera.main;
-        debugText = GameObject.Find ("debugText").GetComponent<TextMesh> ();
+        //debugText = GameObject.Find ("debugText").GetComponent<TextMesh> ();
 		rb = GetComponent<Rigidbody> ();
 
 		// take control over
@@ -107,6 +107,6 @@ public class TouchMoveGearVR : MonoBehaviour {
         Vector3 dir = Quaternion.Euler(new Vector3 (0,MainCam.transform.localEulerAngles.y,0)) * Vector3.forward;
         transform.position += dirZ * dir * force;
 
-        debugText.text = dirZ+"\n"+dirX;
+        //MainScript.debugText.text = dirZ+"\n"+dirX;
 	}
 }
