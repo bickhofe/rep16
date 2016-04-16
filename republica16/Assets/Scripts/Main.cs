@@ -7,6 +7,8 @@ public class Main : MonoBehaviour {
 	public int HumanPlayerID = -1;
 	public GameObject CamContainer;
 
+
+
     // 0=food, 1=tech, 2=plant, 3=stuff/tools
 
 	public Vector3[] islandCenterPoints;
@@ -17,8 +19,8 @@ public class Main : MonoBehaviour {
     public Player[] Player;
 
     //items
-    public List<Item> items = new List<Item>();
-    public Item[] Items;
+    public List<Item> itemScripts = new List<Item>();
+    public Item[] Items; 
     int[] spawnPointList = new int[16];
 
 	public float radius = 3;
@@ -44,9 +46,9 @@ public class Main : MonoBehaviour {
         // print(players.Count);
 
         //init player position
-        foreach (Player data in players)
+        foreach (Player player in players)
         {
-            data.playerPos = startPoint[data.playerID];
+            player.playerPos = startPoint[player.playerID];
         }
     }
 
@@ -77,10 +79,10 @@ public class Main : MonoBehaviour {
 
     void UpdateItems()
     {
-        foreach (Item data in items)
+		foreach (Item item in itemScripts)
         {
-            if (data.itemPos.y < -25) data.ResetItem(startPoint[data.curIsland]);
-            else data.UpdateItem();
+			if (item.itemPos.y < -25) item.ResetItem(startPoint[item.curIsland]);
+			else item.UpdateItem();
         }
 
         time = 0;
