@@ -30,8 +30,7 @@ public class Player : MonoBehaviour {
 		}
     }
 	
-	void Update()
-    {
+	void Update() {
 		if (MainScript.HumanPlayerID == playerID) {
 			transform.position = MainScript.CamContainer.transform.position;
 		}
@@ -40,7 +39,6 @@ public class Player : MonoBehaviour {
         //playerPos = transform.position + new Vector3(rnd, 0, rnd);
 
         playerPos = transform.position;
-
     }
 
     void OnTriggerEnter(Collider Portal)

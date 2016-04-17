@@ -10,14 +10,14 @@ using Pomelo.DotNetClient;
 
 public class ServerComm : MonoBehaviour {
   // pomelo vars
-  public static string userName = "UnityEngine";
+	public static string userName = "UnityEngine";
 	public static string channel = "islands";
 	public static string host = "104.155.72.59";
 	public static int connectorport = 3014;
 	public static JsonObject users = null;
 	public static PomeloClient pc = null;
 	private ArrayList userList = null;
-  public Main MainScript;
+	public Main MainScript;
 
     // Use this for initialization
   void Start () {
@@ -106,14 +106,25 @@ public class ServerComm : MonoBehaviour {
       }
     }
 
-    void GotPlayerPosData(JsonObject inmsg)
-    {
-      print(inmsg.ToString());
-      System.Object playerId = null;
-      if (inmsg.TryGetValue("playerId", out playerId))
-      {
-          print("-> " + playerId.ToString());
-      }
+    void GotPlayerPosData(JsonObject inmsg) {
+    	print("-> "+inmsg.ToString());
+
+//		System.Object playerId = null;
+//		if (inmsg.TryGetValue ("playerId", out playerId)) print ("-> " + playerId.ToString ());
+
+		System.Object data = null;
+		int tmpID = 0; float tmpX = 0; float tmpY = 0; float tmpZ = 0; float tmpAngle = 0;
+
+		if (inmsg.TryGetValue ("playerId", out data)) tmpID = int.Parse(data.ToString());
+		if (inmsg.TryGetValue ("playerPosX", out data)) tmpX = float.Parse(data.ToString ());
+		if (inmsg.TryGetValue ("playerPosY", out data)) tmpY = float.Parse(data.ToString ());
+		if (inmsg.TryGetValue ("playerPosZ", out data)) tmpZ = float.Parse(data.ToString ());
+		if (inmsg.TryGetValue ("playerAngle", out data)) tmpAngle = float.Parse(data.ToString ());
+//		if (inmsg.TryGetValue ("playerHeadX", out data)) print ("-> " + data.ToString ());
+//		if (inmsg.TryGetValue ("playerHeadY", out data)) print ("-> " + data.ToString ());
+//		if (inmsg.TryGetValue ("playerHeadZ", out data)) print ("-> " + data.ToString ());
+
+		MainScript.players [tmpID].GetComponent<Player> ().playerPos = new Vector3 (tmpX, tmpY, tmpZ);
     }
 
     //Update the userlist.
@@ -141,8 +152,8 @@ public class ServerComm : MonoBehaviour {
 
 		//space key pressed
 		if (Input.GetKeyDown("space")) {
-      SendPlayerPos();
-    }
+	      SendPlayerPos();
+	    }
 
 		////Mouse Click
 		//if (Input.GetMouseButtonDown(0)){
@@ -172,6 +183,7 @@ public class ServerComm : MonoBehaviour {
             });
         }
     }
+
     void SendPlayerPos()
     {
         JsonObject message = new JsonObject();
