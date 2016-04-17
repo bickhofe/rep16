@@ -147,7 +147,7 @@ public class Main : MonoBehaviour {
 
         //just for debugging
         foreach (int id in spawnPoints) {
-            //print (id);
+            // print (id);
         }
 
 
