@@ -5,28 +5,26 @@ using System.Collections.Generic;
 using SimpleJson;
 using Pomelo.DotNetClient;
 
+// http://2k4.de:3001/?area=islands&player=-1;
 
 
 public class ServerComm : MonoBehaviour {
-    // http://2k4.de:3001/?area=islands&player=-1;
-    // pomelo vars
-    public static string userName = "UnityEngine";
+  // pomelo vars
+  public static string userName = "UnityEngine";
 	public static string channel = "islands";
 	public static string host = "104.155.72.59";
 	public static int connectorport = 3014;
 	public static JsonObject users = null;
 	public static PomeloClient pc = null;
 	private ArrayList userList = null;
-
-    public Main MainScript;
+  public Main MainScript;
 
     // Use this for initialization
-    void Start () {
-        MainScript = GameObject.Find("Main").GetComponent<Main>();
-
-        userList = new ArrayList();
+  void Start () {
+    MainScript = GameObject.Find("Main").GetComponent<Main>();
+    userList = new ArrayList();
 		Login();
-	}
+}
 
     void Login()
     {
@@ -38,7 +36,7 @@ public class ServerComm : MonoBehaviour {
         });
     }
 
-    // Reconnect to Game Server
+    // Reconnect to Game Server with the Connection Date we got from Login
     void OnQuery(JsonObject result)
     {
         if (Convert.ToInt32(result["code"]) == 200)
@@ -57,6 +55,16 @@ public class ServerComm : MonoBehaviour {
                 GotData(data);
             });
 
+            // area msg
+            pc.on("onItemRefresh", (data) => {
+                // TBD
+                print("Itemdata refreshed!");
+                //
+            });
+            // player Pos update
+            pc.on("onPlayerPos", (data) => {
+                GotPlayerPosData(data);
+            });
             //neuer spieler
             pc.on("onAdd", (data) => {
                 RefreshUserList("add", data);
@@ -86,26 +94,26 @@ public class ServerComm : MonoBehaviour {
 
     void GotData(JsonObject inmsg)
     {
-        //System.Object msg = null;
-        //if (inmsg.TryGetValue("state", out msg)) {
-        //    print("-> " + msg);
-        //}
+      System.Object state = null;
+	    if (inmsg.TryGetValue("state", out state)) {
+        print("-> " + state);
+      }
 
-        //System.Object tick = null;
-        //if (inmsg.TryGetValue("tick", out tick)) {
-        //    print("-> " + tick);
-        //    MainScript.debugText = tick.ToString();
-        //}
+      System.Object tick = null;
+      if (inmsg.TryGetValue("tick", out tick)) {
+        //	print("-> " + tick);
+        MainScript.debugText = tick.ToString();
+      }
+    }
 
-        System.Object player = null;
-        if (inmsg.TryGetValue("msg", out player)) {
-            print("-> " + player);
-            MainScript.debugText = player.ToString();
-        }
-
-        //var json = JsonUtility.ToJson(player);
-        //System.Object playerPos = null;
-        //print(json.TryGetValue("playerPos",out playerPos));
+    void GotPlayerPosData(JsonObject inmsg)
+    {
+      print(inmsg.ToString());
+      System.Object playerId = null;
+      if (inmsg.TryGetValue("playerId", out playerId))
+      {
+          print("-> " + playerId.ToString());
+      }
     }
 
     //Update the userlist.
@@ -123,27 +131,18 @@ public class ServerComm : MonoBehaviour {
 
 	void Update () {
 
-        //esc key pressed
-  //      if (Input.GetKey(KeyCode.Escape)) {
-		//	if (pc != null) {
-		//		//pc.disconnect();
-		//	}
-		//	Application.Quit();
-		//}
+    // esc key pressed
+    // if (Input.GetKey(KeyCode.Escape)) {
+    //   if (pc != null) {
+		// 		pc.disconnect();
+		// 	}
+		// 	Application.Quit();
+		// }
 
 		//space key pressed
 		if (Input.GetKeyDown("space")) {
-  
-            JsonObject playerdata = new JsonObject();
-            playerdata.Add("playerId", "1");
-            playerdata.Add("playerPos", "1.0,1.0,1.0");
-            playerdata.Add("playerAngle", "45");
-            playerdata.Add("playerHead", "1.0,1.0,1.0");
-
-            //print(playerdata);
-
-            SendAll(""+playerdata);
-        }
+      SendPlayerPos();
+    }
 
 		////Mouse Click
 		//if (Input.GetMouseButtonDown(0)){
@@ -152,13 +151,13 @@ public class ServerComm : MonoBehaviour {
 	}
 
     void OnApplicationQuit() {
-        if (pc != null) {
-           // pc.disconnect();
-            }
-        }
+        // if (pc != null) {
+           pc.disconnect();
+        // }
+    }
 
         // Send klick Msg to Area
-        void SendAll(string msg)
+    void SendAll(JsonObject msg)
     {
         JsonObject message = new JsonObject();
         message.Add("area", channel);
@@ -171,6 +170,55 @@ public class ServerComm : MonoBehaviour {
             pc.request("pdg.pdgHandler.send", message, (data) => {
                 // print(data);
             });
+        }
+    }
+    void SendPlayerPos()
+    {
+        JsonObject message = new JsonObject();
+        message.Add("area", channel);
+        message.Add("playerId", "1");
+        message.Add("playerPosX", "1.0");
+        message.Add("playerPosY", "1.0");
+        message.Add("playerPosZ", "1.0");
+        message.Add("playerAngle", "45.6");
+        message.Add("playerHeadX", "1.0");
+        message.Add("playerHeadY", "1.0");
+        message.Add("playerHeadZ", "1.0");
+        message.Add("from", userName);
+        message.Add("target", "*"); // * alle in der area
+
+        if (pc != null)
+        {
+            pc.request("pdg.pdgHandler.sendplayerpos", message, (data) => {
+                // print(data);
+            });
+        }
+        else {
+          print("Connection error!");
+        }
+    }
+
+    void UpdateItems()
+    {
+        JsonObject message = new JsonObject();
+        message.Add("area", channel);
+        message.Add("itemId", "-1");
+        message.Add("itemType", "-1");
+        message.Add("itemActive", "-1");
+        message.Add("itemPosX", "1.0");
+        message.Add("itemPosY", "1.0");
+        message.Add("itemPosZ", "1.0");
+        message.Add("from", userName);
+        message.Add("target", "*"); // * alle in der area
+
+        if (pc != null)
+        {
+            pc.request("pdg.pdgHandler.updateitempos", message, (data) => {
+                // print(data);
+            });
+        }
+        else {
+          print("Connection error!");
         }
     }
 
