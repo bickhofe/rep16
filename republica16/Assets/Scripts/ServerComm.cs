@@ -10,7 +10,7 @@ using Pomelo.DotNetClient;
 public class ServerComm : MonoBehaviour {
     // http://2k4.de:3001/?area=islands&player=-1;
     // pomelo vars
-    public static string userName = "UnityEngine";
+  public static string userName = "UnityEngine";
 	public static string channel = "islands";
 	public static string host = "104.155.72.59";
 	public static int connectorport = 3014;
@@ -86,26 +86,41 @@ public class ServerComm : MonoBehaviour {
 
     void GotData(JsonObject inmsg)
     {
-        //System.Object msg = null;
-        //if (inmsg.TryGetValue("state", out msg)) {
-        //    print("-> " + msg);
-        //}
+    	//print(inmsg.ToString());
+		System.Object state = null;
+		if (inmsg.TryGetValue("state", out state)) {
+            print("-> " + state);
+        }
 
-        //System.Object tick = null;
-        //if (inmsg.TryGetValue("tick", out tick)) {
-        //    print("-> " + tick);
-        //    MainScript.debugText = tick.ToString();
-        //}
+		System.Object tick = null;
+		if (inmsg.TryGetValue("tick", out tick)) {
+		//	print("-> " + tick);
+			MainScript.debugText = tick.ToString();
+		}
 
-        System.Object player = null;
-        if (inmsg.TryGetValue("msg", out player)) {
-            print("-> " + player);
-            MainScript.debugText = player.ToString();
+        System.Object msg = null;
+        if (inmsg.TryGetValue("msg>", out msg))
+        {
+            print("-> " + msg.ToString());
+            //ParsePlayerJson(msg);
         }
 
         //var json = JsonUtility.ToJson(player);
         //System.Object playerPos = null;
         //print(json.TryGetValue("playerPos",out playerPos));
+    }
+
+    void ParsePlayerJson(JsonObject  playerJson)
+    {
+        System.Object playerId = null;
+        System.Object playerPos = null;
+        System.Object playerAngle = null;
+        System.Object playerHead = null;
+        if (playerJson.TryGetValue("playerId", out playerId))
+        {
+            print("playerId -> " + playerId.ToString());
+        }
+
     }
 
     //Update the userlist.
@@ -133,7 +148,7 @@ public class ServerComm : MonoBehaviour {
 
 		//space key pressed
 		if (Input.GetKeyDown("space")) {
-  
+
             JsonObject playerdata = new JsonObject();
             playerdata.Add("playerId", "1");
             playerdata.Add("playerPos", "1.0,1.0,1.0");
@@ -142,7 +157,7 @@ public class ServerComm : MonoBehaviour {
 
             //print(playerdata);
 
-            SendAll(""+playerdata);
+            SendPlayerPos(playerdata);
         }
 
 		////Mouse Click
@@ -153,12 +168,12 @@ public class ServerComm : MonoBehaviour {
 
     void OnApplicationQuit() {
         if (pc != null) {
-           // pc.disconnect();
-            }
+           pc.disconnect();
         }
+    }
 
         // Send klick Msg to Area
-        void SendAll(string msg)
+    void SendAll(JsonObject msg)
     {
         JsonObject message = new JsonObject();
         message.Add("area", channel);
@@ -173,7 +188,21 @@ public class ServerComm : MonoBehaviour {
             });
         }
     }
+    void SendPlayerPos(JsonObject msg)
+    {
+        JsonObject message = new JsonObject();
+        message.Add("area", channel);
+        message.Add("content", msg);
+        message.Add("from", userName);
+        message.Add("target", "*"); // * alle in de area
 
+        if (pc != null)
+        {
+            pc.request("pdg.pdgHandler.sendplayerpos , message, (data) => {
+                // print(data);
+            });
+        }
+    }
     // Send klick Msg only to "server" or other "playername"
     void SendServer (string msg, string target) {
 		JsonObject message = new JsonObject();
