@@ -26,7 +26,7 @@ public class Main : MonoBehaviour {
     public Player[] Player;
 
     //items
-    public List<Item> itemScripts = new List<Item>();
+    public List<Item> ItemParas = new List<Item>();
     public Item[] Items; 
     int[] spawnPointList = new int[16];
 
@@ -71,7 +71,7 @@ public class Main : MonoBehaviour {
         {
 			//print("update");
             //UpdatePlayers();
-            //UpdateItems();
+            UpdateItems();
         }
     }
 	
@@ -91,8 +91,7 @@ public class Main : MonoBehaviour {
 
     void UpdateItems()
     {
-		foreach (Item item in itemScripts)
-        {
+		foreach (Item item in Items) {
 			if (item.itemPos.y < -25) item.ResetItem(startPoint[item.curIsland]);
 			else item.UpdateItem();
         }
@@ -160,7 +159,12 @@ public class Main : MonoBehaviour {
                 float y = Mathf.Cos(angle) * radius;
                 itemPos = new Vector3(x, 2, y) + center;
                 Items[spawnPoints[itemCount]].transform.position = itemPos;
-                itemCount++;
+                
+				// write parameters (cur island, homezone
+				Items [spawnPoints [itemCount]].GetComponent<Item>().zoneID = (int)spawnPoints [itemCount]/4;
+				Items [spawnPoints [itemCount]].GetComponent<Item>().curIsland = i;
+
+				itemCount++;
             }
         }
     }
