@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using SimpleJson;
 using Pomelo.DotNetClient;
 
+// http://2k4.de:3001/?area=islands&player=-1;
 
 
 public class ServerComm : MonoBehaviour {
-    // http://2k4.de:3001/?area=islands&player=-1;
-    // pomelo vars
+  // pomelo vars
   public static string userName = "UnityEngine";
 	public static string channel = "islands";
 	public static string host = "104.155.72.59";
@@ -17,16 +17,14 @@ public class ServerComm : MonoBehaviour {
 	public static JsonObject users = null;
 	public static PomeloClient pc = null;
 	private ArrayList userList = null;
-
   public Main MainScript;
 
     // Use this for initialization
-    void Start () {
-        MainScript = GameObject.Find("Main").GetComponent<Main>();
-
-        userList = new ArrayList();
+  void Start () {
+    MainScript = GameObject.Find("Main").GetComponent<Main>();
+    userList = new ArrayList();
 		Login();
-	}
+}
 
     void Login()
     {
@@ -38,7 +36,7 @@ public class ServerComm : MonoBehaviour {
         });
     }
 
-    // Reconnect to Game Server
+    // Reconnect to Game Server with the Connection Date we got from Login
     void OnQuery(JsonObject result)
     {
         if (Convert.ToInt32(result["code"]) == 200)
@@ -57,6 +55,12 @@ public class ServerComm : MonoBehaviour {
                 GotData(data);
             });
 
+            // area msg
+            pc.on("onItemRefresh", (data) => {
+                // TBD
+                print("Itemdata refreshed!");
+                //
+            });
             // player Pos update
             pc.on("onPlayerPos", (data) => {
                 GotPlayerPosData(data);
@@ -112,7 +116,6 @@ public class ServerComm : MonoBehaviour {
       }
     }
 
-
     //Update the userlist.
     void RefreshUserList(string flag,JsonObject msg){
 		System.Object user = null;
@@ -128,31 +131,18 @@ public class ServerComm : MonoBehaviour {
 
 	void Update () {
 
-        //esc key pressed
-  //      if (Input.GetKey(KeyCode.Escape)) {
-		//	if (pc != null) {
-		//		//pc.disconnect();
-		//	}
-		//	Application.Quit();
-		//}
+    // esc key pressed
+    // if (Input.GetKey(KeyCode.Escape)) {
+    //   if (pc != null) {
+		// 		pc.disconnect();
+		// 	}
+		// 	Application.Quit();
+		// }
 
 		//space key pressed
 		if (Input.GetKeyDown("space")) {
-
-            JsonObject playerdata = new JsonObject();
-            playerdata.Add("playerId", "1");
-            playerdata.Add("playerPosX", "1.0");
-            playerdata.Add("playerPosY", "1.0");
-            playerdata.Add("playerPosZ", "1.0");
-            playerdata.Add("playerAngle", "45");
-            playerdata.Add("playerHeadX", "1.0");
-            playerdata.Add("playerHeadY", "1.0");
-            playerdata.Add("playerHeadZ", "1.0");
-
-            //print(playerdata);
-
-            SendPlayerPos(playerdata);
-        }
+      SendPlayerPos();
+    }
 
 		////Mouse Click
 		//if (Input.GetMouseButtonDown(0)){
@@ -182,20 +172,20 @@ public class ServerComm : MonoBehaviour {
             });
         }
     }
-    void SendPlayerPos(JsonObject msg)
+    void SendPlayerPos()
     {
         JsonObject message = new JsonObject();
         message.Add("area", channel);
-        message.Add("playerId", msg.playerId);
-        message.Add("playerPosX", msg.playerPosX);
-        message.Add("playerPosY", msg.playerPosY);
-        message.Add("playerPosZ", msg.playerPosZ);
-        message.Add("playerAngle", msg.playerAngle);
-        message.Add("playerHeadX", msg.playerHeadX);
-        message.Add("playerHeadY", msg.playerHeadY);
-        message.Add("playerHeadZ", msg.playerHeadZ);
+        message.Add("playerId", "1");
+        message.Add("playerPosX", "1.0");
+        message.Add("playerPosY", "1.0");
+        message.Add("playerPosZ", "1.0");
+        message.Add("playerAngle", "45.6");
+        message.Add("playerHeadX", "1.0");
+        message.Add("playerHeadY", "1.0");
+        message.Add("playerHeadZ", "1.0");
         message.Add("from", userName);
-        message.Add("target", "*"); // * alle in de area
+        message.Add("target", "*"); // * alle in der area
 
         if (pc != null)
         {
@@ -203,7 +193,35 @@ public class ServerComm : MonoBehaviour {
                 // print(data);
             });
         }
+        else {
+          print("Connection error!");
+        }
     }
+
+    void UpdateItems()
+    {
+        JsonObject message = new JsonObject();
+        message.Add("area", channel);
+        message.Add("itemId", "-1");
+        message.Add("itemType", "-1");
+        message.Add("itemActive", "-1");
+        message.Add("itemPosX", "1.0");
+        message.Add("itemPosY", "1.0");
+        message.Add("itemPosZ", "1.0");
+        message.Add("from", userName);
+        message.Add("target", "*"); // * alle in der area
+
+        if (pc != null)
+        {
+            pc.request("pdg.pdgHandler.updateitempos", message, (data) => {
+                // print(data);
+            });
+        }
+        else {
+          print("Connection error!");
+        }
+    }
+
     // Send klick Msg only to "server" or other "playername"
     void SendServer (string msg, string target) {
 		JsonObject message = new JsonObject();
