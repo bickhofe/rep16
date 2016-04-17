@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class LookAt : MonoBehaviour {
 
+	public Main MainScript;
+
 	RectTransform Gaze;
 	Text GazeText;
 
@@ -11,6 +13,8 @@ public class LookAt : MonoBehaviour {
     // Update is called once per frame
 
 	void Start(){
+		MainScript = GameObject.Find("Main").GetComponent<Main>();
+
 		Gaze = GameObject.Find("Gaze").GetComponent<RectTransform>();
 		GazeText = GameObject.Find("GazeText").GetComponent<Text>();
 	}
@@ -29,8 +33,11 @@ public class LookAt : MonoBehaviour {
 				print ("Item found!");
 
 				Gaze.sizeDelta = new Vector2 (15, 15);
-				GazeText.text = hit.collider.name+": "+hit.collider.GetComponent<Item> ().itemID;
+				hit.collider.GetComponent<Item> ().pickedByPlayerID = MainScript.HumanPlayerID;
+
+				GazeText.text = hit.collider.name+": "+hit.collider.GetComponent<Item> ().itemID + " " +hit.collider.GetComponent<Item> ().curIsland+ " " +hit.collider.GetComponent<Item> ().zoneID;
 			} else {
+				//hit.collider.GetComponent<Item> ().pickedByPlayerID = -1;
 				Gaze.sizeDelta = new Vector2 (25,25);
 				GazeText.text = "";
 			}
