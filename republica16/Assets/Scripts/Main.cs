@@ -71,9 +71,10 @@ public class Main : MonoBehaviour {
         else
         {
 			//print("update");
-            //UpdatePlayers();
+            UpdatePlayers();
             UpdateItems();
 
+            //senden
 			if (HumanPlayerID != -1) {
 				ServerScript.SendPlayerPos();
 			}
@@ -151,7 +152,7 @@ public class Main : MonoBehaviour {
 
         //just for debugging
         foreach (int id in spawnPoints) {
-            print (id);
+            // print (id);
         }
 
 

@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
 	void Update() {
 		if (MainScript.HumanPlayerID == playerID) {
 			transform.position = MainScript.CamContainer.transform.position;
-			playerPos = transform.position;
+			//playerPos = transform.position;
 		}
 
         //var rnd = Random.Range(-.1f, .1f);

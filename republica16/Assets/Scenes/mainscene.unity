@@ -546,9 +546,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugTextObj: {fileID: 0}
   debugText: 
+  ServerScript: {fileID: 0}
   gametime: 0
   state: 
-  HumanPlayerID: 0
+  HumanPlayerID: 1
   CamContainer: {fileID: 1598331814}
   islandCenterPoints:
   - {x: 0, y: 0, z: -10}
@@ -2350,12 +2351,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1318284693}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1941d2ada0475c42816bfe6486b665c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MouseLookSimulator: 1
+  MouseLookSimulator: 0
   enableYaw: 1
   autoRecenterPitch: 1
   autoRecenterRoll: 1

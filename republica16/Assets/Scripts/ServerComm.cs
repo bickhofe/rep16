@@ -195,7 +195,7 @@ public class ServerComm : MonoBehaviour {
     }
 
     public void SendPlayerPos() {
-        print("send");
+        //print("send");
 
 		int ID = MainScript.HumanPlayerID;
 
