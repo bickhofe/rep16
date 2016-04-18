@@ -18,6 +18,7 @@ public class Main : MonoBehaviour {
     //player control
     public int HumanPlayerID = -1;
 	public GameObject CamContainer;
+	public GameObject SpectatorCam;
 
     // 0=food, 1=tech, 2=plant, 3=stuff/tools
 
@@ -25,8 +26,7 @@ public class Main : MonoBehaviour {
 
     public Vector3[] startPoint; //drop off
 
-    public List<Player> players = new List<Player>();
-    public Player[] Player;
+    public List<Player> Players = new List<Player>();
 
     //items
     public List<Item> ItemParas = new List<Item>();
@@ -49,14 +49,18 @@ public class Main : MonoBehaviour {
         debugTextObj = GameObject.Find("debugText").GetComponent<TextMesh>();
         ServerScript = GetComponent<ServerComm>();
 
+		if (HumanPlayerID == -1) {
+			SpectatorCam.SetActive (true);
+			CamContainer.SetActive (false);
+		} else {
+			SpectatorCam.SetActive (false);
+			CamContainer.SetActive (true);
+		}
+
         ShuffleItemSpawnPoints();
 
-        for (int i = 0; i<Player.Length; i++) {
-            players.Add(Player[i]);
-        }
-
         //init player position
-        foreach (Player player in players)
+        foreach (Player player in Players)
         {
             player.playerPos = startPoint[player.playerID];
         }
@@ -68,32 +72,31 @@ public class Main : MonoBehaviour {
 
         //timer
         if (time < updateTime) time += Time.deltaTime;
-        else
-        {
+        else {
 			//print("update");
-            UpdatePlayers();
-            UpdateItems();
+            //UpdatePlayers();
+            //UpdateItems();
 
             //senden
 			if (HumanPlayerID != -1) {
-				ServerScript.SendPlayerPos();
+				//ServerScript.SendPlayerPos (HumanPlayerID, Players[HumanPlayerID].playerPos, Players[HumanPlayerID].playerAngle);
 			}
         }
     }
 	
-	void UpdatePlayers() {
-        
-		foreach (Player data in players)
-        {
-			if (data.playerPos.y < -25) {
-				data.ResetPlayer (startPoint [data.curIsland]);
-			} else {
-				if (data.playerID != HumanPlayerID) data.UpdatePlayer (); // human player available?
-			}
-        }
-
-        time = 0;
-    }
+//	void UpdatePlayers() {
+//        
+//		foreach (Player data in Players)
+//        {
+//			if (data.playerPos.y < -25) {
+//				data.ResetPlayer (startPoint [data.curIsland]);
+//			} else {
+//				if (data.playerID != HumanPlayerID) data.UpdatePlayer (); // human player available?
+//			}
+//        }
+//
+//        time = 0;
+//    }
 
     void UpdateItems()
     {
@@ -154,7 +157,6 @@ public class Main : MonoBehaviour {
         foreach (int id in spawnPoints) {
             // print (id);
         }
-
 
         for (int i = 0; i < 4; i++) {
             center = islandCenterPoints[i];

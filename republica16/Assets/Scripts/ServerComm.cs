@@ -11,7 +11,7 @@ using Pomelo.DotNetClient;
 public class ServerComm : MonoBehaviour {
   // pomelo vars
 	public static string userID;
-	public static string userName = "UnityEngine1";
+	public static string userName = "UnityEngine";
 	public static string channel = "islands";
 	public static string host = "104.155.72.59";
 	public static int connectorport = 3014;
@@ -111,9 +111,6 @@ public class ServerComm : MonoBehaviour {
     void GotPlayerPosData(JsonObject inmsg) {
         print("-> " + inmsg.ToString());
 
-        //		System.Object playerId = null;
-        //		if (inmsg.TryGetValue ("playerId", out playerId)) print ("-> " + playerId.ToString ());
-
         System.Object data = null;
 		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
 
@@ -133,9 +130,10 @@ public class ServerComm : MonoBehaviour {
 			tmpAng = float.Parse(""+data);
 		}
 
-        //print("id: "+MainScript.players[tmpID]); // .GetComponent<Player> ().playerPos = new Vector3 (tmpX, tmpY, tmpZ);
-		MainScript.Player[tmpID].playerPos = new Vector3 (tmpX,tmpY,tmpZ);
-        MainScript.debugText = tmpID.ToString();
+		// daten empfangen und an die playerscripte weiterleiten
+		MainScript.Players[tmpID].playerPos = new Vector3 (tmpX,.25f,tmpZ);
+		MainScript.Players [tmpID].updatePos = true;
+        //MainScript.debugText = tmpID.ToString();
     }
 
 
@@ -164,7 +162,7 @@ public class ServerComm : MonoBehaviour {
 
         //space key pressed
         if (Input.GetKeyDown("space")) {
-	      SendPlayerPos();
+	      //SendPlayerPos();
 	    }
 
 		////Mouse Click
@@ -194,18 +192,22 @@ public class ServerComm : MonoBehaviour {
         }
     }
 
-    public void SendPlayerPos() {
+	public void SendPlayerPos(int ID, Vector3 pos, float ang) {
         //print("send");
 
-		int ID = MainScript.HumanPlayerID;
+		//int ID = MainScript.HumanPlayerID;
 
         JsonObject message = new JsonObject();
         message.Add("area", channel);
 		message.Add("playerId", ID);
-		message.Add("playerPosX", MainScript.Player[ID].transform.position.x);
-		message.Add("playerPosY", MainScript.Player[ID].transform.position.y);
-		message.Add("playerPosZ", MainScript.Player[ID].transform.position.z);
-		message.Add("playerAngle", MainScript.Player[ID].transform.eulerAngles.y);
+//		message.Add("playerPosX", MainScript.Player[ID].transform.position.x);
+//		message.Add("playerPosY", MainScript.Player[ID].transform.position.y);
+//		message.Add("playerPosZ", MainScript.Player[ID].transform.position.z);
+//		message.Add("playerAngle", MainScript.Player[ID].transform.eulerAngles.y);
+		message.Add("playerPosX", pos.x);
+		message.Add("playerPosY", pos.y);
+		message.Add("playerPosZ", pos.z);
+		message.Add("playerAngle", ang);
         message.Add("playerHeadX", "1.0");
         message.Add("playerHeadY", "1.0");
         message.Add("playerHeadZ", "1.0");

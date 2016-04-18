@@ -7,11 +7,12 @@ public class Player : MonoBehaviour {
 
 
     public int playerID;
-    public Vector3 playerPos;
+	public Vector3 playerPos;
     public float playerAngle;
     public Vector3 playerHead;
     public Color _color;
     public int curIsland;
+	public bool updatePos = false;
 
     Rigidbody rb;
 	Collider col;
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour {
         transform.Find("Cube").GetComponent<Renderer>().material.color = _color;
         curIsland = playerID;
 
+		//playerPos = MainScript.startPoint [i];
+
 		//deactivate rigidbody when on user control
 		if (MainScript.HumanPlayerID == playerID) {
 			rb.isKinematic = false;
@@ -34,12 +37,17 @@ public class Player : MonoBehaviour {
 	
 	void Update() {
 		if (MainScript.HumanPlayerID == playerID) {
+			//position von camera holen
 			transform.position = MainScript.CamContainer.transform.position;
-			//playerPos = transform.position;
-		}
 
-        //var rnd = Random.Range(-.1f, .1f);
-        //playerPos = transform.position + new Vector3(rnd, 0, rnd);
+			//player pos parameter setzen
+			playerPos = transform.position;
+		} else {
+			if (updatePos) {
+				transform.position = playerPos;
+				updatePos = false;
+			}
+		}
       }
 
     void OnTriggerEnter(Collider Portal)
@@ -53,10 +61,6 @@ public class Player : MonoBehaviour {
         else if (IslandID == 3) curIsland = 1;
 
         TeleportPlayer(MainScript.startPoint[curIsland]);
-    }
-
-    public void UpdatePlayer () {
-        transform.position = playerPos;
     }
 
     public void TeleportPlayer(Vector3 teleportPos)
