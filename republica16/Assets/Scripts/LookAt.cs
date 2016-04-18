@@ -33,7 +33,7 @@ public class LookAt : MonoBehaviour {
 				print ("Item found!");
 
 				Gaze.sizeDelta = new Vector2 (15, 15);
-				hit.collider.GetComponent<Item> ().pickedByPlayerID = MainScript.HumanPlayerID;
+				//hit.collider.GetComponent<Item> ().pickedByPlayerID = MainScript.HumanPlayerID;
 
 				GazeText.text = hit.collider.name+": "+hit.collider.GetComponent<Item> ().itemID + " " +hit.collider.GetComponent<Item> ().curIsland+ " " +hit.collider.GetComponent<Item> ().zoneID;
 			} else {

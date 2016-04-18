@@ -10,7 +10,8 @@ using Pomelo.DotNetClient;
 
 public class ServerComm : MonoBehaviour {
   // pomelo vars
-	public static string userName = "UnityEngine";
+	public static string userID;
+	public static string userName = "UnityEngine1";
 	public static string channel = "islands";
 	public static string host = "104.155.72.59";
 	public static int connectorport = 3014;
@@ -23,15 +24,15 @@ public class ServerComm : MonoBehaviour {
   void Start () {
     MainScript = GameObject.Find("Main").GetComponent<Main>();
     userList = new ArrayList();
-		Login();
+	userID = ""+UnityEngine.Random.Range(0,1000);
+	Login();
 }
 
-    void Login()
-    {
+    void Login() {
         pc = new PomeloClient(host, connectorport);
         pc.connect(null, (data) => {
             JsonObject msg = new JsonObject();
-            msg["uid"] = userName;
+			msg["uid"] = userID;
             pc.request("gate.gateHandler.queryEntry", msg, OnQuery);
         });
     }
@@ -61,10 +62,12 @@ public class ServerComm : MonoBehaviour {
                 print("Itemdata refreshed!");
                 //
             });
+
             // player Pos update
             pc.on("onPlayerPos", (data) => {
                 GotPlayerPosData(data);
             });
+
             //neuer spieler
             pc.on("onAdd", (data) => {
                 RefreshUserList("add", data);
@@ -87,48 +90,57 @@ public class ServerComm : MonoBehaviour {
         {
             pc.request("connector.entryHandler.enter", userMessage, (data) => {
                 users = data;
-                print(users.ToString());
+                print("user"+users.ToString());
             });
         }
     }
 
-    void GotData(JsonObject inmsg)
-    {
-      System.Object state = null;
-	    if (inmsg.TryGetValue("state", out state)) {
-        print("-> " + state);
-      }
+    void GotData(JsonObject inmsg) {
+        System.Object state = null;
+        if (inmsg.TryGetValue("state", out state)) {
+            print("-> " + state);
+        }
 
-      System.Object tick = null;
-      if (inmsg.TryGetValue("tick", out tick)) {
-        //	print("-> " + tick);
-        MainScript.debugText = tick.ToString();
-      }
+        System.Object tick = null;
+        if (inmsg.TryGetValue("tick", out tick)) {
+            //	print("-> " + tick);
+            MainScript.debugText = tick.ToString();
+        }
     }
 
     void GotPlayerPosData(JsonObject inmsg) {
-    	print("-> "+inmsg.ToString());
+        print("-> " + inmsg.ToString());
 
-//		System.Object playerId = null;
-//		if (inmsg.TryGetValue ("playerId", out playerId)) print ("-> " + playerId.ToString ());
+        //		System.Object playerId = null;
+        //		if (inmsg.TryGetValue ("playerId", out playerId)) print ("-> " + playerId.ToString ());
 
-		System.Object data = null;
-		int tmpID = 0; float tmpX = 0; float tmpY = 0; float tmpZ = 0; float tmpAngle = 0;
+        System.Object data = null;
+		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
 
-		if (inmsg.TryGetValue ("playerId", out data)) tmpID = int.Parse(data.ToString());
-		if (inmsg.TryGetValue ("playerPosX", out data)) tmpX = float.Parse(data.ToString ());
-		if (inmsg.TryGetValue ("playerPosY", out data)) tmpY = float.Parse(data.ToString ());
-		if (inmsg.TryGetValue ("playerPosZ", out data)) tmpZ = float.Parse(data.ToString ());
-		if (inmsg.TryGetValue ("playerAngle", out data)) tmpAngle = float.Parse(data.ToString ());
-//		if (inmsg.TryGetValue ("playerHeadX", out data)) print ("-> " + data.ToString ());
-//		if (inmsg.TryGetValue ("playerHeadY", out data)) print ("-> " + data.ToString ());
-//		if (inmsg.TryGetValue ("playerHeadZ", out data)) print ("-> " + data.ToString ());
+		if (inmsg.TryGetValue("playerId", out data)) {
+			tmpID = int.Parse(""+data);
 
-		MainScript.players [tmpID].GetComponent<Player> ().playerPos = new Vector3 (tmpX, tmpY, tmpZ);
+			inmsg.TryGetValue("playerPosX", out data);
+			tmpX = float.Parse(""+data);
+
+			inmsg.TryGetValue("playerPosY", out data);
+			tmpY = float.Parse(""+data);
+
+			inmsg.TryGetValue("playerPosZ", out data);
+			tmpZ = float.Parse(""+data);
+
+			inmsg.TryGetValue("playerAngle", out data);
+			tmpAng = float.Parse(""+data);
+		}
+
+        //print("id: "+MainScript.players[tmpID]); // .GetComponent<Player> ().playerPos = new Vector3 (tmpX, tmpY, tmpZ);
+		MainScript.Player[tmpID].playerPos = new Vector3 (tmpX,tmpY,tmpZ);
+        MainScript.debugText = tmpID.ToString();
     }
 
+
     //Update the userlist.
-    void RefreshUserList(string flag,JsonObject msg){
+    void RefreshUserList(string flag,JsonObject msg) {
 		System.Object user = null;
 		if(msg.TryGetValue("user", out user)) {
 			if (flag == "add") {
@@ -142,16 +154,16 @@ public class ServerComm : MonoBehaviour {
 
 	void Update () {
 
-    // esc key pressed
-    // if (Input.GetKey(KeyCode.Escape)) {
-    //   if (pc != null) {
-		// 		pc.disconnect();
-		// 	}
-		// 	Application.Quit();
-		// }
+        // esc key pressed
+        if (Input.GetKey(KeyCode.Escape)) {
+            //if (pc != null) {
+                //pc.disconnect();
+            //}
+            //Application.Quit();
+        }
 
-		//space key pressed
-		if (Input.GetKeyDown("space")) {
+        //space key pressed
+        if (Input.GetKeyDown("space")) {
 	      SendPlayerPos();
 	    }
 
@@ -162,56 +174,54 @@ public class ServerComm : MonoBehaviour {
 	}
 
     void OnApplicationQuit() {
-        // if (pc != null) {
+        if (pc != null) {
            pc.disconnect();
-        // }
+        }
     }
 
         // Send klick Msg to Area
-    void SendAll(JsonObject msg)
-    {
+    void SendAll(JsonObject msg) {
         JsonObject message = new JsonObject();
         message.Add("area", channel);
         message.Add("content", msg);
         message.Add("from", userName);
         message.Add("target", "*"); // * alle in de area
 
-        if (pc != null)
-        {
+        if (pc != null) {
             pc.request("pdg.pdgHandler.send", message, (data) => {
                 // print(data);
             });
         }
     }
 
-    void SendPlayerPos()
-    {
+    public void SendPlayerPos() {
+        print("send");
+
+		int ID = MainScript.HumanPlayerID;
+
         JsonObject message = new JsonObject();
         message.Add("area", channel);
-        message.Add("playerId", "1");
-        message.Add("playerPosX", "1.0");
-        message.Add("playerPosY", "1.0");
-        message.Add("playerPosZ", "1.0");
-        message.Add("playerAngle", "45.6");
+		message.Add("playerId", ID);
+		message.Add("playerPosX", MainScript.Player[ID].transform.position.x);
+		message.Add("playerPosY", MainScript.Player[ID].transform.position.y);
+		message.Add("playerPosZ", MainScript.Player[ID].transform.position.z);
+		message.Add("playerAngle", MainScript.Player[ID].transform.eulerAngles.y);
         message.Add("playerHeadX", "1.0");
         message.Add("playerHeadY", "1.0");
         message.Add("playerHeadZ", "1.0");
         message.Add("from", userName);
         message.Add("target", "*"); // * alle in der area
 
-        if (pc != null)
-        {
+        if (pc != null) {
             pc.request("pdg.pdgHandler.sendplayerpos", message, (data) => {
-                // print(data);
+                //print("data"+data);
             });
-        }
-        else {
+        } else {
           print("Connection error!");
         }
     }
 
-    void UpdateItems()
-    {
+    void UpdateItems() {
         JsonObject message = new JsonObject();
         message.Add("area", channel);
         message.Add("itemId", "-1");
@@ -223,13 +233,11 @@ public class ServerComm : MonoBehaviour {
         message.Add("from", userName);
         message.Add("target", "*"); // * alle in der area
 
-        if (pc != null)
-        {
+        if (pc != null) {
             pc.request("pdg.pdgHandler.updateitempos", message, (data) => {
                 // print(data);
             });
-        }
-        else {
+        } else {
           print("Connection error!");
         }
     }

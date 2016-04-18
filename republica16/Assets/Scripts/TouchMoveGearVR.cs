@@ -90,8 +90,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision col) {
-		if (col.gameObject.tag == "Ground")
-		{
+		if (col.gameObject.tag == "Ground") {
 			canJump = true;
 			//print ("landed");
 		}

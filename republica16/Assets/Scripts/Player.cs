@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
 
 	public Main MainScript;
 
+
     public int playerID;
     public Vector3 playerPos;
     public float playerAngle;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start () {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
+
         rb = GetComponent<Rigidbody>();
 		col = GetComponent<Collider>();
         transform.Find("Cube").GetComponent<Renderer>().material.color = _color;
@@ -33,13 +35,12 @@ public class Player : MonoBehaviour {
 	void Update() {
 		if (MainScript.HumanPlayerID == playerID) {
 			transform.position = MainScript.CamContainer.transform.position;
+			playerPos = transform.position;
 		}
 
         //var rnd = Random.Range(-.1f, .1f);
         //playerPos = transform.position + new Vector3(rnd, 0, rnd);
-
-        playerPos = transform.position;
-    }
+      }
 
     void OnTriggerEnter(Collider Portal)
     {

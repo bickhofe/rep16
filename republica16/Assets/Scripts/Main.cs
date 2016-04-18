@@ -8,6 +8,9 @@ public class Main : MonoBehaviour {
     public TextMesh debugTextObj;
     public string debugText;
 
+    //comm
+	public ServerComm ServerScript;
+
     //serverdaten
     public int gametime;
     public string state;
@@ -44,15 +47,13 @@ public class Main : MonoBehaviour {
     // Use this for initialization
     void Start () {
         debugTextObj = GameObject.Find("debugText").GetComponent<TextMesh>();
+        ServerScript = GetComponent<ServerComm>();
 
         ShuffleItemSpawnPoints();
 
         for (int i = 0; i<Player.Length; i++) {
             players.Add(Player[i]);
         }
-			
-        // myList.RemoveAt(i);
-        // print(players.Count);
 
         //init player position
         foreach (Player player in players)
@@ -72,6 +73,10 @@ public class Main : MonoBehaviour {
 			//print("update");
             //UpdatePlayers();
             UpdateItems();
+
+			if (HumanPlayerID != -1) {
+				ServerScript.SendPlayerPos();
+			}
         }
     }
 	
@@ -146,7 +151,7 @@ public class Main : MonoBehaviour {
 
         //just for debugging
         foreach (int id in spawnPoints) {
-            // print (id);
+            print (id);
         }
 
 
