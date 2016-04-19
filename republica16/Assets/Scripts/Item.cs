@@ -6,27 +6,24 @@ public class Item : MonoBehaviour
     public Main MainScript;
 
     public int itemID;
-    public int zoneID;
+    //public int zoneID;
     public Vector3 itemPos;
     public int curIsland;
-	public int pickedByPlayerID = -1;
+	public int pickId = -1;
+	public bool updatePos = false;
 
-    Rigidbody rb;
+	Rigidbody rb;
 
     // Use this for initialization
     void Start() {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
-        rb = GetComponent<Rigidbody>();
+		rb = GetComponent<Rigidbody>();
     }
 
     void Update() {
-		if (pickedByPlayerID == -1) {
-			
-			var rnd = Random.Range (-.01f, .01f);
-			itemPos = transform.position + new Vector3 (rnd, 0, rnd);
-
-			//itemPos = transform.position;
+		if (updatePos) {
 			transform.position = itemPos;
+			updatePos = false;
 		}
     }
 
@@ -57,13 +54,6 @@ public class Item : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;
-        transform.eulerAngles = Vector3.zero;
-    }
-
-    public void ResetItem(Vector3 startPos) {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        transform.position = startPos;
         transform.eulerAngles = Vector3.zero;
     }
 }

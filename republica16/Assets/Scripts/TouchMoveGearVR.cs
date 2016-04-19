@@ -26,6 +26,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		MainScript = GameObject.Find("Main").GetComponent<Main>();
+
         MainCam = Camera.main;
         //debugText = GameObject.Find ("debugText").GetComponent<TextMesh> ();
 		rb = GetComponent<Rigidbody> ();
@@ -81,7 +82,9 @@ public class TouchMoveGearVR : MonoBehaviour {
 			transform.position = new Vector3 (1.6f, 1f, -11.3f);
 			transform.eulerAngles = Vector3.zero;
 		}
-			
+
+		//fall from cliff
+		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
 	}
 		
 	void Jump(){
@@ -108,4 +111,23 @@ public class TouchMoveGearVR : MonoBehaviour {
 
         //MainScript.debugText.text = dirZ+"\n"+dirX;
 	}
+
+	void OnTriggerEnter(Collider Portal) {
+        print("Enter portal");
+        int IslandID = Portal.transform.parent.GetComponent<Island>().IslandID;
+
+        if (IslandID == 0) MainScript.Players[MainScript.HumanPlayerID].curIsland = 3;
+		else if (IslandID == 1) MainScript.Players[MainScript.HumanPlayerID].curIsland = 2;
+		else if (IslandID == 2) MainScript.Players[MainScript.HumanPlayerID].curIsland = 0;
+		else if (IslandID == 3) MainScript.Players[MainScript.HumanPlayerID].curIsland = 1;
+
+		TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
+    }
+
+    public void TeleportPlayer(Vector3 teleportPos) {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        transform.position = teleportPos;
+        transform.eulerAngles = Vector3.zero;
+    }
 }

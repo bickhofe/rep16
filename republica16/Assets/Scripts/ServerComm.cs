@@ -21,12 +21,12 @@ public class ServerComm : MonoBehaviour {
 	public Main MainScript;
 
     // Use this for initialization
-  void Start () {
-    MainScript = GameObject.Find("Main").GetComponent<Main>();
-    userList = new ArrayList();
-	userID = ""+UnityEngine.Random.Range(0,1000);
-	Login();
-}
+    void Start () {
+	    MainScript = GameObject.Find("Main").GetComponent<Main>();
+	    userList = new ArrayList();
+		userID = ""+UnityEngine.Random.Range(0,1000);
+		Login();
+	}
 
     void Login() {
         pc = new PomeloClient(host, connectorport);
@@ -109,7 +109,7 @@ public class ServerComm : MonoBehaviour {
     }
 
     void GotPlayerPosData(JsonObject inmsg) {
-        print("-> " + inmsg.ToString());
+        print(inmsg.ToString());
 
         System.Object data = null;
 		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
@@ -131,7 +131,7 @@ public class ServerComm : MonoBehaviour {
 		}
 
 		// daten empfangen und an die playerscripte weiterleiten
-		MainScript.Players[tmpID].playerPos = new Vector3 (tmpX,.25f,tmpZ);
+		MainScript.Players[tmpID].playerPos = new Vector3 (tmpX,tmpY,tmpZ);
 		MainScript.Players [tmpID].updatePos = true;
         //MainScript.debugText = tmpID.ToString();
     }
@@ -195,15 +195,9 @@ public class ServerComm : MonoBehaviour {
 	public void SendPlayerPos(int ID, Vector3 pos, float ang) {
         //print("send");
 
-		//int ID = MainScript.HumanPlayerID;
-
         JsonObject message = new JsonObject();
         message.Add("area", channel);
 		message.Add("playerId", ID);
-//		message.Add("playerPosX", MainScript.Player[ID].transform.position.x);
-//		message.Add("playerPosY", MainScript.Player[ID].transform.position.y);
-//		message.Add("playerPosZ", MainScript.Player[ID].transform.position.z);
-//		message.Add("playerAngle", MainScript.Player[ID].transform.eulerAngles.y);
 		message.Add("playerPosX", pos.x);
 		message.Add("playerPosY", pos.y);
 		message.Add("playerPosZ", pos.z);
@@ -211,7 +205,7 @@ public class ServerComm : MonoBehaviour {
         message.Add("playerHeadX", "1.0");
         message.Add("playerHeadY", "1.0");
         message.Add("playerHeadZ", "1.0");
-        message.Add("from", userName);
+        message.Add("from", userName+ID);
         message.Add("target", "*"); // * alle in der area
 
         if (pc != null) {
@@ -223,16 +217,16 @@ public class ServerComm : MonoBehaviour {
         }
     }
 
-    void UpdateItems() {
+    public void UpdateItems(int ID, Vector3 pos, int curIsland, int pickedID) {
         JsonObject message = new JsonObject();
         message.Add("area", channel);
-        message.Add("itemId", "-1");
-        message.Add("itemType", "-1");
-        message.Add("itemActive", "-1");
-        message.Add("itemPosX", "1.0");
-        message.Add("itemPosY", "1.0");
-        message.Add("itemPosZ", "1.0");
-        message.Add("from", userName);
+		message.Add("itemId", ID);
+		message.Add("itemPosX", pos.x);
+		message.Add("itemPosY", pos.y);
+		message.Add("itemPosZ", pos.z);
+		message.Add("itemCurIsland", curIsland);
+		message.Add("itemPickId", pickedID);
+		message.Add("from", userName+ID);
         message.Add("target", "*"); // * alle in der area
 
         if (pc != null) {
@@ -251,10 +245,11 @@ public class ServerComm : MonoBehaviour {
 		message.Add("content", msg);
 		message.Add("from", userName);
 		message.Add("target", target); // an "server" oder anderer "spielername"
+
         if (pc != null) {
-				pc.request("pdg.pdgHandler.send", message, (data) => {
-					print("Only to Server");
-				});
+			pc.request("pdg.pdgHandler.send", message, (data) => {
+				print("Only to Server");
+			});
 		}
 	}
 

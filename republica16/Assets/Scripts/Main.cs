@@ -23,20 +23,18 @@ public class Main : MonoBehaviour {
     // 0=food, 1=tech, 2=plant, 3=stuff/tools
 
 	public Vector3[] islandCenterPoints;
-
     public Vector3[] startPoint; //drop off
-
+   
     public List<Player> Players = new List<Player>();
 
     //items
-    public List<Item> ItemParas = new List<Item>();
-    public Item[] Items; 
+    public List<Item> Items = new List<Item>();
+
     int[] spawnPointList = new int[16];
 
 	public float radius = 3;
 	Vector3 center;
 	float angle;
-	Vector3 itemPos;
 	int itemCount;
     int rnd;
     int rndValue;
@@ -57,11 +55,10 @@ public class Main : MonoBehaviour {
 			CamContainer.SetActive (true);
 		}
 
-        ShuffleItemSpawnPoints();
+		if (HumanPlayerID == 0) ShuffleItemSpawnPoints();
 
         //init player position
-        foreach (Player player in Players)
-        {
+        foreach (Player player in Players) {
             player.playerPos = startPoint[player.playerID];
         }
     }
@@ -70,48 +67,25 @@ public class Main : MonoBehaviour {
 
         debugTextObj.text = debugText;
 
-        //timer
+        //timer 
         if (time < updateTime) time += Time.deltaTime;
         else {
 			//print("update");
-            //UpdatePlayers();
-            //UpdateItems();
 
-            //senden
+            // eigene position senden
 			if (HumanPlayerID != -1) {
-				//ServerScript.SendPlayerPos (HumanPlayerID, Players[HumanPlayerID].playerPos, Players[HumanPlayerID].playerAngle);
+				ServerScript.SendPlayerPos (HumanPlayerID, Players[HumanPlayerID].playerPos, Players[HumanPlayerID].playerAngle);
 			}
+
+			time = 0;
         }
     }
-	
-//	void UpdatePlayers() {
-//        
-//		foreach (Player data in Players)
-//        {
-//			if (data.playerPos.y < -25) {
-//				data.ResetPlayer (startPoint [data.curIsland]);
-//			} else {
-//				if (data.playerID != HumanPlayerID) data.UpdatePlayer (); // human player available?
-//			}
-//        }
-//
-//        time = 0;
-//    }
+  
 
-    void UpdateItems()
-    {
-		foreach (Item item in Items) {
-			if (item.itemPos.y < -25) item.ResetItem(startPoint[item.curIsland]);
-			else item.UpdateItem();
-        }
-
-        time = 0;
-    }
-
-    // 0-4 food
-    // 5-9 tech
-    // 10-14 plants
-    // 15-19 stuff
+    // 0-3 food
+    // 4-7 tech
+    // 8-11 plants
+    // 12-15 stuff
 
     void ShuffleItemSpawnPoints() {
         List<int> spawnIDs = new List<int>();
@@ -158,6 +132,9 @@ public class Main : MonoBehaviour {
             // print (id);
         }
 
+		Vector3 itemRingPos;
+
+        // items im kreis um die holes verteilen
         for (int i = 0; i < 4; i++) {
             center = islandCenterPoints[i];
 
@@ -165,16 +142,24 @@ public class Main : MonoBehaviour {
                 angle = j * 90 * Mathf.Deg2Rad;  //90° um das loch herumn
                 float x = Mathf.Sin(angle) * radius;
                 float y = Mathf.Cos(angle) * radius;
-                itemPos = new Vector3(x, 2, y) + center;
-                Items[spawnPoints[itemCount]].transform.position = itemPos;
-                
+				itemRingPos = new Vector3(x,2,y) + center;
+
 				// write parameters (cur island, homezone
-				Items [spawnPoints [itemCount]].GetComponent<Item>().zoneID = (int)spawnPoints [itemCount]/4;
-				Items [spawnPoints [itemCount]].GetComponent<Item>().curIsland = i;
+				Items[spawnPoints[itemCount]].itemPos = itemRingPos;
+				//Items[spawnPoints[itemCount]].zoneID = (int)spawnPoints [itemCount]/4;
+				Items[spawnPoints[itemCount]].curIsland = i;
+				Items[spawnPoints[itemCount]].updatePos = true;
 
 				itemCount++;
             }
         }
+
+        // Initialer Post der item positionen an den server
+		for (int i=0; i<16; i++){
+			if (Items[i].pickId != -1) {
+				ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickId);
+			}
+		}
     }
 }
 

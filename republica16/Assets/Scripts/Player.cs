@@ -14,25 +14,21 @@ public class Player : MonoBehaviour {
     public int curIsland;
 	public bool updatePos = false;
 
-    Rigidbody rb;
 	Collider col;
 
     // Use this for initialization
     void Start () {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
-
-        rb = GetComponent<Rigidbody>();
 		col = GetComponent<Collider>();
-        transform.Find("Cube").GetComponent<Renderer>().material.color = _color;
-        curIsland = playerID;
 
-		//playerPos = MainScript.startPoint [i];
-
-		//deactivate rigidbody when on user control
-		if (MainScript.HumanPlayerID == playerID) {
-			rb.isKinematic = false;
-			col.enabled = false;
+		if (playerID != MainScript.HumanPlayerID) {
+			transform.Find("Character").GetComponent<Renderer>().material.color = _color;
+		} else {
+			//eigenen character unsichtbar machen
+			transform.Find("Character").gameObject.SetActive(false);
 		}
+
+        curIsland = playerID;
     }
 	
 	void Update() {
@@ -41,41 +37,12 @@ public class Player : MonoBehaviour {
 			transform.position = MainScript.CamContainer.transform.position;
 
 			//player pos parameter setzen
-			playerPos = transform.position;
+			playerPos = MainScript.CamContainer.transform.position;
 		} else {
 			if (updatePos) {
 				transform.position = playerPos;
 				updatePos = false;
 			}
 		}
-      }
-
-    void OnTriggerEnter(Collider Portal)
-    {
-        print("Enter portal");
-        int IslandID = Portal.transform.parent.GetComponent<Island>().IslandID;
-
-        if (IslandID == 0) curIsland = 3;
-        else if (IslandID == 1) curIsland = 2;
-        else if (IslandID == 2) curIsland = 0;
-        else if (IslandID == 3) curIsland = 1;
-
-        TeleportPlayer(MainScript.startPoint[curIsland]);
-    }
-
-    public void TeleportPlayer(Vector3 teleportPos)
-    {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        transform.position = teleportPos;
-        transform.eulerAngles = Vector3.zero;
-    }
-
-    public void ResetPlayer(Vector3 startPos)
-    {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        transform.position = startPos;
-        transform.eulerAngles = Vector3.zero; 
     }
 }
