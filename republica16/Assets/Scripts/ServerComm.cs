@@ -195,18 +195,18 @@ public class ServerComm : MonoBehaviour {
 	public void SendPlayerPos(int ID, Vector3 pos, float ang) {
         //print("send");
 
-    JsonObject message = new JsonObject();
-    message.Add("area", channel);
+        JsonObject message = new JsonObject();
+        message.Add("area", channel);
 		message.Add("playerId", ID);
 		message.Add("playerPosX", pos.x);
 		message.Add("playerPosY", pos.y);
 		message.Add("playerPosZ", pos.z);
 		message.Add("playerAngle", ang);
-    message.Add("playerHeadX", "1.0");
-    message.Add("playerHeadY", "1.0");
-    message.Add("playerHeadZ", "1.0");
-    message.Add("from", userName+ID);
-    message.Add("target", "*"); // * alle in der area
+        message.Add("playerHeadX", "1.0");
+        message.Add("playerHeadY", "1.0");
+        message.Add("playerHeadZ", "1.0");
+        message.Add("from", userName+ID);
+        message.Add("target", "*"); // * alle in der area
 
         if (pc != null) {
             pc.request("pdg.pdgHandler.sendplayerpos", message, (data) => {
@@ -218,16 +218,16 @@ public class ServerComm : MonoBehaviour {
     }
 
     public void UpdateItems(int ID, Vector3 pos, int curIsland, int pickedID) {
-      JsonObject message = new JsonObject();
-      message.Add("area", channel);
-  		message.Add("itemId", ID);
-  		message.Add("itemPosX", pos.x);
-  		message.Add("itemPosY", pos.y);
-  		message.Add("itemPosZ", pos.z);
-  		message.Add("itemCurIsland", curIsland);
-  		message.Add("itemPickId", pickedID);
-  		message.Add("from", userName+ID);
-      message.Add("target", "*"); // * alle in der area
+        JsonObject message = new JsonObject();
+        message.Add("area", channel);
+		message.Add("itemId", ID);
+		message.Add("itemPosX", pos.x);
+		message.Add("itemPosY", pos.y);
+		message.Add("itemPosZ", pos.z);
+		message.Add("itemCurIsland", curIsland);
+		message.Add("itemPickId", pickedID);
+		message.Add("from", userName+ID);
+        message.Add("target", "*"); // * alle in der area
 
         if (pc != null) {
             pc.request("pdg.pdgHandler.updateitempos", message, (data) => {
