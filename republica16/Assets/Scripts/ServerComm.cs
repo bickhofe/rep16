@@ -22,7 +22,7 @@ public class ServerComm : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-	    MainScript = GameObject.Find("Main").GetComponent<Main>();
+        MainScript = GameObject.Find("Main").GetComponent<Main>();
 	    userList = new ArrayList();
 		userID = ""+UnityEngine.Random.Range(0,1000);
 		Login();
@@ -47,34 +47,38 @@ public class ServerComm : MonoBehaviour {
             int port = Convert.ToInt32(result["port"]);
             pc = new PomeloClient(host, port);
 
-            pc.connect(null, (data) => {
+            pc.connect(null, (data) =>
+            {
                 GetOtherPlayers();
             });
 
             // area msg
-            pc.on("onArea", (data) => {
+            pc.on("onArea", (data) =>
+            {
                 GotData(data);
             });
 
             // area msg
-            pc.on("onItemRefresh", (data) => {
-                // TBD
-                print("Itemdata refreshed!");
-                //
+            pc.on("onItemRefresh", (data) =>
+            {
+                GotItems(data);
             });
 
             // player Pos update
-            pc.on("onPlayerPos", (data) => {
+            pc.on("onPlayerPos", (data) =>
+            {
                 GotPlayerPosData(data);
             });
 
-            //neuer spieler
-            pc.on("onAdd", (data) => {
+            ////neuer spieler
+            pc.on("onAdd", (data) =>
+            {
                 RefreshUserList("add", data);
             });
 
-            //spieler verl�sst den server
-            pc.on("onLeave", (data) => {
+            ////spieler verl�sst den server
+            pc.on("onLeave", (data) =>
+            {
                 RefreshUserList("leave", data);
             });
         }
@@ -84,7 +88,7 @@ public class ServerComm : MonoBehaviour {
     void GetOtherPlayers()
     {
         JsonObject userMessage = new JsonObject();
-        userMessage.Add("username", userName);
+        userMessage.Add("username", userName+userID);
         userMessage.Add("area", channel);
         if (pc != null)
         {
@@ -106,6 +110,18 @@ public class ServerComm : MonoBehaviour {
             //	print("-> " + tick);
             MainScript.debugText = tick.ToString();
         }
+    }
+
+    void GotItems(JsonObject inmsg)
+    {
+        System.Object itemData = null;
+        if (inmsg.TryGetValue("itemId", out itemData))
+        {
+            print("Item:->" + itemData);
+            inmsg.TryGetValue("itemCurIsland", out itemData);
+            print("CurIsland-> " + itemData);
+        }
+
     }
 
     void GotPlayerPosData(JsonObject inmsg) {
@@ -150,31 +166,26 @@ public class ServerComm : MonoBehaviour {
 		}
 	}
 
-	void Update () {
+    void Update()
+    {
 
-        // esc key pressed
-        if (Input.GetKey(KeyCode.Escape)) {
-            //if (pc != null) {
-                //pc.disconnect();
-            //}
-            //Application.Quit();
-        }
 
         //space key pressed
-        if (Input.GetKeyDown("space")) {
-	      //SendPlayerPos();
-	    }
+        //if (Input.GetKeyDown("space")) {
+        //SendPlayerPos();
+        //}
 
-		////Mouse Click
-		//if (Input.GetMouseButtonDown(0)){
-		//	SendServer("Clicked","server");
-		//}
-	}
+        ////Mouse Click
+        //if (Input.GetMouseButtonDown(0)){
+        //	SendServer("Clicked","server");
+        //}
+
+    }
 
     void OnApplicationQuit() {
         if (pc != null) {
-           pc.disconnect();
-        }
+            pc.disconnect();
+        }   
     }
 
         // Send klick Msg to Area
@@ -205,7 +216,7 @@ public class ServerComm : MonoBehaviour {
         message.Add("playerHeadX", "1.0");
         message.Add("playerHeadY", "1.0");
         message.Add("playerHeadZ", "1.0");
-        message.Add("from", userName+ID);
+        message.Add("from", userName);
         message.Add("target", "*"); // * alle in der area
 
         if (pc != null) {
@@ -226,8 +237,8 @@ public class ServerComm : MonoBehaviour {
 		message.Add("itemPosZ", pos.z);
 		message.Add("itemCurIsland", curIsland);
 		message.Add("itemPickId", pickedID);
-		message.Add("from", userName+ID);
-        message.Add("target", "*"); // * alle in der area
+		message.Add("from", userName);
+        //message.Add("target", "*"); // * alle in der area
 
         if (pc != null) {
             pc.request("pdg.pdgHandler.updateitempos", message, (data) => {
