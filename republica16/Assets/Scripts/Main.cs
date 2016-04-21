@@ -17,6 +17,7 @@ public class Main : MonoBehaviour {
 
     //player control
     public int HumanPlayerID = -1;
+    public Camera MainCam;
 	public GameObject CamContainer;
 	public GameObject SpectatorCam;
 
@@ -29,8 +30,11 @@ public class Main : MonoBehaviour {
 
     //items
     public List<Item> Items = new List<Item>();
+    public int focusItem = -1;
+	public int curItem = -1;
+    public int pickId = -1;
 
-    int[] spawnPointList = new int[16];
+    public int[] spawnPointList;
 
 	public float radius = 3;
 	Vector3 center;
@@ -47,6 +51,8 @@ public class Main : MonoBehaviour {
         debugTextObj = GameObject.Find("debugText").GetComponent<TextMesh>();
         ServerScript = GetComponent<ServerComm>();
 
+        MainCam = Camera.main;
+
 		if (HumanPlayerID == -1) {
 			SpectatorCam.SetActive (true);
 			CamContainer.SetActive (false);
@@ -55,7 +61,7 @@ public class Main : MonoBehaviour {
 			CamContainer.SetActive (true);
 		}
 
-		if (HumanPlayerID == 0) ShuffleItemSpawnPoints();
+		if (HumanPlayerID == 0) SpawnItems();
 
         //init player position
         foreach (Player player in Players) {
@@ -87,51 +93,7 @@ public class Main : MonoBehaviour {
     // 8-11 plants
     // 12-15 stuff
 
-    void ShuffleItemSpawnPoints() {
-        List<int> spawnIDs = new List<int>();
-        List<int> spawnPoints = new List<int>();
-
-        //pre-fill
-        for (int i = 0; i < 16; i++) {
-            spawnIDs.Add(i);
-        }
-
-        //shuffle
-        for (int i = 0; i < 4; i++) { //anzahl inseln
-            for (int j = 0; j < 4; j++) { //anzahl items pro insel
-
-                //bool success = false;
-                ////print("dddd");
-
-                //do {
-
-                //    // find value
-                //    rnd = Random.Range(0, spawnIDs.Count); // 0-16 prefilled sorted int's
-                //    rndValue = spawnIDs[rnd];
-
-                //    // test value
-                //    if (rndValue >= i * 4 && rndValue < i * 4 + 4) {
-                //        success = false;
-                //    } else {
-                //        success = true;
-                //        break;
-                //    }
-                //} while (!success);
-
-                rnd = Random.Range(0, spawnIDs.Count); // 0-16 prefilled sorted int's
-                rndValue = spawnIDs[rnd];
-
-                //print(i + " chosen: " + rndValue);
-                spawnPoints.Add(rndValue);
-                spawnIDs.RemoveAt(rnd);
-            }
-        }
-
-        //just for debugging
-        foreach (int id in spawnPoints) {
-            // print (id);
-        }
-
+	void SpawnItems() {
 		Vector3 itemRingPos;
 
         // items im kreis um die holes verteilen
@@ -145,10 +107,9 @@ public class Main : MonoBehaviour {
 				itemRingPos = new Vector3(x,2,y) + center;
 
 				// write parameters (cur island, homezone
-				Items[spawnPoints[itemCount]].itemPos = itemRingPos;
-				//Items[spawnPoints[itemCount]].zoneID = (int)spawnPoints [itemCount]/4;
-				Items[spawnPoints[itemCount]].curIsland = i;
-				Items[spawnPoints[itemCount]].updatePos = true;
+				Items[spawnPointList[itemCount]].itemPos = itemRingPos;
+				Items[spawnPointList[itemCount]].curIsland = i;
+				Items[spawnPointList[itemCount]].updatePos = true;
 
 				itemCount++;
             }
@@ -156,10 +117,24 @@ public class Main : MonoBehaviour {
 
         // Initialer Post der item positionen an den server
 		for (int i=0; i<16; i++){
-			if (Items[i].pickId != -1) {
-				ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickId);
+			if (Items[i].pickedById != -1) {
+				ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickedById);
 			}
 		}
+    }
+
+    public void tryPickObj(){
+    print("try");
+    	if (focusItem != -1) {
+			Items[focusItem].pickedById = HumanPlayerID;
+			curItem = focusItem;
+			Items[focusItem].UpdateItem();
+    	}
+    }
+
+    public void dropObj(){
+		Items[curItem].pickedById = -1;
+		curItem = -1;
     }
 }
 

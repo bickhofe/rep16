@@ -9,7 +9,7 @@ public class Item : MonoBehaviour
     //public int zoneID;
     public Vector3 itemPos;
     public int curIsland;
-	public int pickId = -1;
+	public int pickedById = -1;
 	public bool updatePos = false;
 
 	Rigidbody rb;
@@ -25,11 +25,21 @@ public class Item : MonoBehaviour
 			transform.position = itemPos;
 			updatePos = false;
 		}
+
+		if (pickedById != -1) {
+			rb.useGravity = false;
+			Transform CamTransform =  MainScript.MainCam.transform;
+			transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;
+			if (transform.localPosition.y < -6) transform.localPosition = new Vector3(transform.localPosition.x,-6,transform.localPosition.z);
+
+		} else {
+			rb.useGravity = true; 
+		}
     }
 
 	//update aufruf von main script
 	public void UpdateItem() {
-		transform.position = itemPos;
+		if (pickedById == -1) transform.position = itemPos;
 	}
 
     void OnTriggerEnter(Collider Portal) {

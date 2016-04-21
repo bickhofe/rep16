@@ -61,7 +61,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && !doubleClick) {
 			doubleClick = true;
 		} else if (Input.GetMouseButtonDown (0) && doubleClick && canJump) {
-			Jump ();
+			PickDropObject ();
 			doubleClick = false;
 		}
 
@@ -87,9 +87,16 @@ public class TouchMoveGearVR : MonoBehaviour {
 		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
 	}
 		
-	void Jump(){
-		canJump = false;
-		rb.AddForce (Vector3.up * jumpForce);
+	void PickDropObject(){
+		print ("pick/drop");
+		if (MainScript.curItem == -1) { //player hat nichts in der hand
+			MainScript.tryPickObj();
+		} else {
+			MainScript.dropObj();
+		}
+
+		//canJump = false;
+		//rb.AddForce (Vector3.up * jumpForce);
 	}
 
 	void OnCollisionEnter (Collision col) {
