@@ -22,11 +22,11 @@ public class LookAt : MonoBehaviour {
     void Update() {
 
         //debug
-        Vector3 forward = VRCamHead.transform.TransformDirection(Vector3.forward) * 10;
+       	Vector3 forward = VRCamHead.transform.TransformDirection(Vector3.forward) * 10;
         Debug.DrawRay(VRCamHead.transform.position, forward, Color.green);
 
         RaycastHit hit;
-		if (Physics.Raycast (VRCamHead.transform.position, VRCamHead.transform.forward, out hit)) {
+		if (Physics.Raycast (VRCamHead.transform.position, VRCamHead.transform.forward, out hit, 4)) {
 			
 			print ("hit: " + hit.collider.name);
 
@@ -34,13 +34,20 @@ public class LookAt : MonoBehaviour {
 				print ("Item found!");
 
 				Gaze.sizeDelta = new Vector2 (15, 15);
-				//hit.collider.GetComponent<Item> ().pickedID = MainScript.HumanPlayerID;
 
-				GazeText.text = hit.collider.name+": "+hit.collider.GetComponent<Item> ().itemID + " " +hit.collider.GetComponent<Item> ().curIsland;
+				// get temp itemscript
+				Item ItemScript;
+				if (MainScript.focusItem == -1) {
+					ItemScript = hit.collider.GetComponent<Item> ();
+					MainScript.focusItem = ItemScript.itemID;
+					GazeText.text = hit.collider.name+": "+ItemScript.itemID + " " +ItemScript.curIsland;
+				}
+
 			} else {
 				//hit.collider.GetComponent<Item> ().pickedByPlayerID = -1;
 				Gaze.sizeDelta = new Vector2 (25,25);
 				GazeText.text = "";
+				MainScript.focusItem = -1;
 			}
 		} 
 

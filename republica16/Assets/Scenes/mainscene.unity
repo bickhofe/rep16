@@ -136,7 +136,7 @@ MonoBehaviour:
   itemID: 7
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1001 &18930451
 Prefab:
@@ -450,7 +450,7 @@ MonoBehaviour:
   itemID: 14
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1001 &159769538
 Prefab:
@@ -570,7 +570,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &195153468
 GameObject:
@@ -655,6 +655,10 @@ MonoBehaviour:
   - {fileID: 1970880834}
   - {fileID: 143475600}
   - {fileID: 227146001}
+  focusItem: -1
+  curItem: -1
+  pickId: -1
+  spawnPointList: 04000000070000000a0000000d00000000000000080000000f0000000e0000000100000003000000060000000c0000000200000005000000090000000b000000
   radius: 2
   updateTime: 0.1
 --- !u!114 &195153471
@@ -800,7 +804,7 @@ MonoBehaviour:
   itemID: 15
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!4 &254104584 stripped
 Transform:
@@ -924,7 +928,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011796357880, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1000011844843572, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_Name
@@ -1017,7 +1021,7 @@ MonoBehaviour:
   itemID: 6
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &489879285 stripped
 GameObject:
@@ -1134,7 +1138,7 @@ MonoBehaviour:
   itemID: 0
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!54 &512072023
 Rigidbody:
@@ -1197,7 +1201,7 @@ MonoBehaviour:
   itemID: 8
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1001 &544447007
 Prefab:
@@ -1508,7 +1512,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011796357880, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1000011844843572, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_Name
@@ -1872,7 +1876,7 @@ MonoBehaviour:
   itemID: 1
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &1054798008 stripped
 GameObject:
@@ -1942,7 +1946,7 @@ MonoBehaviour:
   itemID: 5
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1001 &1072068267
 Prefab:
@@ -2041,7 +2045,7 @@ MonoBehaviour:
   itemID: 11
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!54 &1072068272
 Rigidbody:
@@ -2104,7 +2108,7 @@ MonoBehaviour:
   itemID: 4
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &1074028237
 GameObject:
@@ -2250,109 +2254,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 45aff55168e836f4cb81da97f6b0729a, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1157606373
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1157606375}
-  - 82: {fileID: 1157606374}
-  m_Layer: 0
-  m_Name: Beach (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &1157606374
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1157606373}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: de28c0588bcbe7a48b5a27039d60650b, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
---- !u!4 &1157606375
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1157606373}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1180401645 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 8a032fee58f90f4438a2ec85d30f5d66, type: 2}
@@ -2394,7 +2295,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011796357880, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1000011844843572, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_Name
@@ -2975,7 +2876,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000011796357880, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1000011844843572, guid: 7684a8e8778bafa4b9852ed6b78779ed, type: 2}
       propertyPath: m_Name
@@ -3259,7 +3160,7 @@ Transform:
   - {fileID: 2122793133}
   - {fileID: 544447008}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1560381940
 AudioSource:
@@ -3605,7 +3506,7 @@ Transform:
   - {fileID: 143475596}
   - {fileID: 227145997}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1607546450 stripped
 Transform:
@@ -3736,7 +3637,7 @@ MonoBehaviour:
   itemID: 12
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &1880329487 stripped
 GameObject:
@@ -3784,7 +3685,7 @@ MonoBehaviour:
   itemID: 2
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &1930127547 stripped
 GameObject:
@@ -3832,7 +3733,7 @@ MonoBehaviour:
   itemID: 9
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &1943775668
 GameObject:
@@ -3954,7 +3855,7 @@ MonoBehaviour:
   itemID: 10
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1001 &1970880829
 Prefab:
@@ -4060,7 +3961,7 @@ MonoBehaviour:
   itemID: 13
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!1 &1975456355
 GameObject:
@@ -4122,7 +4023,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1975765762
 GameObject:
@@ -4302,7 +4203,7 @@ MonoBehaviour:
   itemID: 3
   itemPos: {x: 0, y: 0, z: 0}
   curIsland: 0
-  pickId: -1
+  pickedById: -1
   updatePos: 0
 --- !u!114 &1979461923 stripped
 MonoBehaviour:
@@ -4455,7 +4356,7 @@ RectTransform:
   - {fileID: 2100584634}
   - {fileID: 1943775669}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4566,7 +4467,7 @@ Transform:
   - {fileID: 841383065}
   - {fileID: 1760206234}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2072393946 stripped
 Transform:
