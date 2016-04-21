@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using SocketIO;
 
 public class ServerComm : MonoBehaviour {
-  // pomelo vars
+    // socket.io vars
 	public static string userID;
 	public static string userName = "UnityEngine";
-	public static string channel = "islands";
-	public static string host = "104.155.72.59";
 	public static int port = 3000;
 	public Main MainScript;
     private SocketIOComponent socket;
@@ -25,27 +23,29 @@ public class ServerComm : MonoBehaviour {
         // connect to socketIO
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
-        socket.On("onArea", GotData);
+        socket.On("onTick", GotData);
+        socket.On("shuffled", GotShuffled);
         socket.On("onItemRefresh", GotItems);
         socket.On("onPlayerPos", GotPlayerPosData);
     }
 
-    void GotData(SocketIOEvent inmsg) {
+
+    void GotShuffled(SocketIOEvent inmsg)
+    {
+        Debug.Log("[SocketIO] Shuffle data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
+        print ("Shuffle: " + injson["shuffle"].str);
 
-        //System.Object state = null;
-        //if (inmsg.TryGetValue("state", out state)) {
-        //    print("-> " + state);
-        //}
-
-        //System.Object tick = null;
-        //if (inmsg.TryGetValue("tick", out tick)) {
-        //    //	print("-> " + tick);
-        //    MainScript.debugText = tick.ToString();
-        //}
     }
 
+    void GotData(SocketIOEvent inmsg) {
+        Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
+        JSONObject injson = inmsg.data as JSONObject;
+        //print ("State: " + injson["state"].str + "- tick " + injson["tick"].str );
+       }
+
     void GotItems(SocketIOEvent inmsg) {
+        Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
         print("Item:->" + injson["itemId"].str +" CurIsland "+ injson["itemCurIsland"].str 
             + " PickID" + injson["itemCurIsland"].str + " x " + injson["itemPosX"].str + " y " 
@@ -54,14 +54,15 @@ public class ServerComm : MonoBehaviour {
     }
 
     void GotPlayerPosData(SocketIOEvent inmsg) {
+        Debug.Log("[SocketIO] Pos data received: " + inmsg.name + " " + inmsg.data);
+        int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
+
         JSONObject injson = inmsg.data as JSONObject;
-        //System.Object data = null;
-		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
-        tmpID = int.Parse(injson["playerId"].ToString());
-        tmpX = int.Parse(injson["playerPosX"].ToString());
-        tmpY = int.Parse(injson["playerPosY"].ToString());
-        tmpZ = int.Parse(injson["playerPosZ"].ToString());
-        tmpAng = int.Parse(injson["playerAngle"].ToString());
+        tmpID = int.Parse(injson["playerId"].str);
+        tmpX = float.Parse(injson["playerPosX"].str);
+        tmpY = float.Parse(injson["playerPosY"].str);
+        tmpZ = float.Parse(injson["playerPosZ"].str);
+        tmpAng = float.Parse(injson["playerAngle"].str);
 
         //// daten empfangen und an die playerscripte weiterleiten
         MainScript.Players[tmpID].playerPos = new Vector3 (tmpX,tmpY,tmpZ);
@@ -72,21 +73,23 @@ public class ServerComm : MonoBehaviour {
     void Update()
     {
         //space key pressed
-        //if (Input.GetKeyDown("space")) {
-        //SendPlayerPos();
-        //}
+        if (Input.GetKeyDown("space"))
+        {
+            GetShuffle();
+        }
 
         ////Mouse Click
-        //if (Input.GetMouseButtonDown(0)){
-        //	SendServer("Clicked","server");
-        //}
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 testitempos = new Vector3(1.1f, 1.1f, 1.1f);
+            UpdateItems(12, testitempos, 1, 2);
+        }
 
     }
 
 	public void SendPlayerPos(int ID, Vector3 pos, float ang) {
        //print("send");
         Dictionary<string, string> message = new Dictionary<string, string>();
-        message.Add("area", channel);
 		message.Add("playerId", ID.ToString());
 		message.Add("playerPosX", pos.x.ToString());
 		message.Add("playerPosY", pos.y.ToString());
@@ -95,21 +98,24 @@ public class ServerComm : MonoBehaviour {
         message.Add("playerHeadX", "1.0");
         message.Add("playerHeadY", "1.0");
         message.Add("playerHeadZ", "1.0");
-        message.Add("from", userName);
-        message.Add("target", "*"); // * alle in der area
         socket.Emit("onPlayerPos", new JSONObject(message));
     }
 
     public void UpdateItems(int ID, Vector3 pos, int curIsland, int pickedID) {
         Dictionary<string, string> message = new Dictionary<string, string>();
-        message.Add("area", channel);
 		message.Add("itemId", ID.ToString());
 		message.Add("itemPosX", pos.x.ToString());
 		message.Add("itemPosY", pos.y.ToString());
 		message.Add("itemPosZ", pos.z.ToString());
 		message.Add("itemCurIsland", curIsland.ToString());
 		message.Add("itemPickId", pickedID.ToString());
-		message.Add("from", userName);
         socket.Emit("onUpdateItem", new JSONObject(message));
+    }
+
+    public void GetShuffle()
+    {
+        Dictionary<string, string> message = new Dictionary<string, string>();
+        message.Add("newshuffle", "Gimme");
+        socket.Emit("shuffle", new JSONObject(message));
     }
 }
