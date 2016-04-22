@@ -23,7 +23,7 @@ public class ServerComm : MonoBehaviour {
         // connect to socketIO
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
-        socket.On("onTick", GotData);
+        socket.On("onTick", GotTimetick);
         socket.On("shuffled", GotShuffled);
         socket.On("onItemRefresh", GotItems);
         socket.On("onPlayerPos", GotPlayerPosData);
@@ -35,22 +35,21 @@ public class ServerComm : MonoBehaviour {
         Debug.Log("[SocketIO] Shuffle data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
         print ("Shuffle: " + injson["shuffle"].str);
-
     }
 
-    void GotData(SocketIOEvent inmsg) {
+	void GotTimetick(SocketIOEvent inmsg) { //timer
         Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
         //print ("State: " + injson["state"].str + "- tick " + injson["tick"].str );
        }
 
+    //komplette item update (16mal) oder einzel update
     void GotItems(SocketIOEvent inmsg) {
         Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
         print("Item:->" + injson["itemId"].str +" CurIsland "+ injson["itemCurIsland"].str 
             + " PickID" + injson["itemCurIsland"].str + " x " + injson["itemPosX"].str + " y " 
             + injson["itemPosY"].str + " z " + injson["itemPosZ"].str);
-        
     }
 
     void GotPlayerPosData(SocketIOEvent inmsg) {
@@ -82,6 +81,7 @@ public class ServerComm : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 testitempos = new Vector3(1.1f, 1.1f, 1.1f);
+            //id, pos, cur island, user
             UpdateItems(12, testitempos, 1, 2);
         }
 
@@ -101,6 +101,7 @@ public class ServerComm : MonoBehaviour {
         socket.Emit("onPlayerPos", new JSONObject(message));
     }
 
+    //einzelnes items updaten
     public void UpdateItems(int ID, Vector3 pos, int curIsland, int pickedID) {
         Dictionary<string, string> message = new Dictionary<string, string>();
 		message.Add("itemId", ID.ToString());
@@ -112,8 +113,7 @@ public class ServerComm : MonoBehaviour {
         socket.Emit("onUpdateItem", new JSONObject(message));
     }
 
-    public void GetShuffle()
-    {
+    public void GetShuffle() {
         Dictionary<string, string> message = new Dictionary<string, string>();
         message.Add("newshuffle", "Gimme");
         socket.Emit("shuffle", new JSONObject(message));
