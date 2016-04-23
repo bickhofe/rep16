@@ -65,10 +65,12 @@ public class Item : MonoBehaviour
 	}
 
     public void TeleportItem(Vector3 teleportPos) {
-    	//send item position updaten to server!
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;
         transform.eulerAngles = Vector3.zero;
+
+		//send item position updaten to server!
+		MainScript.ServerScript.UpdateItems (itemID, itemPos, curIsland, pickedById);
     }
 }
