@@ -22,12 +22,12 @@ public class Simulator : MonoBehaviour {
 		if (time < updateTime) time += Time.deltaTime;
 		else {
 			for (int i = 0; i < 4; i++) {
-				if (i != MainScript.HumanPlayerID) {
+				if (i != MainScript.CharacterPlayerID) {
 					var rnd = Random.Range (-.1f, .1f);
 					Vector3 testPos = MainScript.startPoint [i] + new Vector3 (rnd, 0, rnd);
 					ServerScript.SendPlayerPos (i, testPos, Random.Range (0, 360));
 				} else {
-					ServerScript.SendPlayerPos (MainScript.HumanPlayerID, MainScript.Players[MainScript.HumanPlayerID].playerPos, MainScript.Players[MainScript.HumanPlayerID].playerAngle);
+					ServerScript.SendPlayerPos (MainScript.CharacterPlayerID, MainScript.Players[MainScript.CharacterPlayerID].playerPos, MainScript.Players[MainScript.CharacterPlayerID].playerAngle);
 				}
 			}
 

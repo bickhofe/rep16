@@ -32,8 +32,8 @@ public class TouchMoveGearVR : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 
 		// take control over
-		if (MainScript.HumanPlayerID != -1) {
-			transform.position = MainScript.startPoint [MainScript.HumanPlayerID];
+		if (MainScript.CharacterPlayerID != -1) {
+			transform.position = MainScript.startPoint [MainScript.CharacterPlayerID];
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 		//fall from cliff
 		//if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
-		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
+		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
 	}
 		
 	void PickDropObject(){
@@ -124,12 +124,12 @@ public class TouchMoveGearVR : MonoBehaviour {
         print("Enter portal");
         int IslandID = Portal.transform.parent.GetComponent<Island>().IslandID;
 
-        if (IslandID == 0) MainScript.Players[MainScript.HumanPlayerID].curIsland = 3;
-		else if (IslandID == 1) MainScript.Players[MainScript.HumanPlayerID].curIsland = 2;
-		else if (IslandID == 2) MainScript.Players[MainScript.HumanPlayerID].curIsland = 0;
-		else if (IslandID == 3) MainScript.Players[MainScript.HumanPlayerID].curIsland = 1;
+		if (IslandID == 0) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 3;
+		else if (IslandID == 1) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 2;
+		else if (IslandID == 2) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 0;
+		else if (IslandID == 3) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 1;
 
-		TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
+		TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
     }
 
     public void TeleportPlayer(Vector3 teleportPos) {

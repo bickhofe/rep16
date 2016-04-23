@@ -24,9 +24,19 @@ public class ServerComm : MonoBehaviour {
         GameObject go = GameObject.Find("SocketIO");
         socket = go.GetComponent<SocketIOComponent>();
         socket.On("onTick", GotTimetick);
+		socket.On("pshuffled", GotCharacter);
         socket.On("shuffled", GotShuffled);
         socket.On("onItemRefresh", GotItems);
         socket.On("onPlayerPos", GotPlayerPosData);
+    }
+
+	void GotCharacter(SocketIOEvent inmsg) {
+        Debug.Log("[SocketIO] Character data received: " + inmsg.name + " " + inmsg.data);
+        JSONObject injson = inmsg.data as JSONObject;
+
+        //neue id sequence senden
+		MainScript.UpdateCharacterID(injson["shuffle"].str);
+        //print ("Shuffle: " + injson["shuffle"].str);
     }
 
 
@@ -46,7 +56,7 @@ public class ServerComm : MonoBehaviour {
 
     //komplette item update (16mal) oder einzel update
     void GotItems(SocketIOEvent inmsg) {
-       	Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
+       	//Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
 		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; int tmpIsland = -1; int tmpPickID = -1;
 
         JSONObject injson = inmsg.data as JSONObject;
@@ -90,7 +100,10 @@ public class ServerComm : MonoBehaviour {
         //space key pressed
         if (Input.GetKeyDown("space"))
         {
-            GetShuffle();
+            //GetShuffle();
+			//MainScript.UpdateCharacterID(1);
+			GetCharacter();
+			print("spac");
         }
 
         ////Mouse Click
@@ -130,9 +143,15 @@ public class ServerComm : MonoBehaviour {
         socket.Emit("onUpdateItem", new JSONObject(message));
     }
 
+	public void GetCharacter() {
+        Dictionary<string, string> message = new Dictionary<string, string>();
+        message.Add("newshuffle", "character");
+        socket.Emit("pshuffle", new JSONObject());
+    }
+
     public void GetShuffle() {
         Dictionary<string, string> message = new Dictionary<string, string>();
-        message.Add("newshuffle", "Gimme");
+        message.Add("newshuffle", "items");
         socket.Emit("shuffle", new JSONObject(message));
     }
 }

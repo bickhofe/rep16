@@ -21,7 +21,7 @@ public class Player : MonoBehaviour {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
 		col = GetComponent<Collider>();
 
-		if (playerID != MainScript.HumanPlayerID) {
+		if (playerID != MainScript.CharacterPlayerID) {
 			transform.Find("Character").GetComponent<Renderer>().material.color = _color;
 		} else {
 			//eigenen character unsichtbar machen
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour {
     }
 	
 	void Update() {
-		if (MainScript.HumanPlayerID == playerID) {
+		if (MainScript.CharacterPlayerID == playerID) {
 			//position von camera holen
 			transform.position = MainScript.CamContainer.transform.position;
 

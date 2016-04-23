@@ -16,7 +16,8 @@ public class Main : MonoBehaviour {
     public string state;
 
     //player control
-    public int HumanPlayerID = -1;
+    public int DeviceId;
+    public int CharacterPlayerID = -1;
     public Camera MainCam;
 	public GameObject CamContainer;
 	public GameObject SpectatorCam;
@@ -57,21 +58,7 @@ public class Main : MonoBehaviour {
         ServerScript = GetComponent<ServerComm>();
 
         MainCam = Camera.main;
-
-		if (HumanPlayerID == -1) {
-			SpectatorCam.SetActive (true);
-			CamContainer.SetActive (false);
-		} else {
-			SpectatorCam.SetActive (false);
-			CamContainer.SetActive (true);
-		}
-
-		//if (HumanPlayerID == 0) SpawnItems();
-
-        //init player position
-        foreach (Player player in Players) {
-            player.playerPos = startPoint[player.playerID];
-        }
+		CamContainer.SetActive (false);
     }
 
     void Update() {
@@ -84,6 +71,7 @@ public class Main : MonoBehaviour {
         	//fragt bei wechsel von pause zu running einmal die neuen shuffled liste an
         	if (gameStatus == "running") {
         		print("order shuffle");
+        		ServerScript.GetCharacter();
 				ServerScript.GetShuffle();
         	}
         }
@@ -95,14 +83,32 @@ public class Main : MonoBehaviour {
 			//print("update");
 
             // eigene position senden
-			if (HumanPlayerID != -1) {
-				ServerScript.SendPlayerPos (HumanPlayerID, Players[HumanPlayerID].playerPos, Players[HumanPlayerID].playerAngle);
+			if (CharacterPlayerID != -1) {
+				ServerScript.SendPlayerPos (CharacterPlayerID, Players[CharacterPlayerID].playerPos, Players[CharacterPlayerID].playerAngle);
 			}
 
 			time = 0;
         }
     }
-  
+
+    public void UpdateCharacterID(string idlist){
+
+		string[] ids = idlist.Split(',');
+		CharacterPlayerID = int.Parse(ids[DeviceId]);
+
+		if (CharacterPlayerID == -1) {
+			SpectatorCam.SetActive (true);
+			CamContainer.SetActive (false);
+		} else {
+			SpectatorCam.SetActive (false);
+			CamContainer.SetActive (true);
+		}
+
+        //init player position
+        foreach (Player player in Players) {
+            player.playerPos = startPoint[player.playerID];
+        }
+    }
 
     // 0-3 food
     // 4-7 tech
@@ -157,7 +163,7 @@ public class Main : MonoBehaviour {
     public void tryPickObj(){
     print("try");
     	if (focusItem != -1) {
-			Items[focusItem].pickedById = HumanPlayerID;
+			Items[focusItem].pickedById = CharacterPlayerID;
 			curItem = focusItem;
 			Items[focusItem].UpdateItem();
     	}
