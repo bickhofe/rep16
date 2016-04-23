@@ -707,7 +707,9 @@ MonoBehaviour:
   focusItem: -1
   curItem: -1
   pickId: -1
-  spawnPointList: 04000000070000000a0000000d00000000000000080000000f0000000e0000000100000003000000060000000c0000000200000005000000090000000b000000
+  tempStatus: 
+  gameStatus: 
+  spawnList: 
   radius: 2
   updateTime: 0.05
 --- !u!114 &195153471

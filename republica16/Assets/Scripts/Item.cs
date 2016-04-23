@@ -42,9 +42,9 @@ public class Item : MonoBehaviour
     }
 
 	//update aufruf von main script
-	public void UpdateItem() {
-		if (pickedById == -1) transform.position = itemPos;
-	}
+//	public void UpdateItem() {
+//		if (pickedById == -1) transform.position = itemPos;
+//	}
 
     void OnTriggerEnter(Collider Portal) {
 		print ("Enter portal");

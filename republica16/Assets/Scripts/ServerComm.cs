@@ -47,7 +47,22 @@ public class ServerComm : MonoBehaviour {
     //komplette item update (16mal) oder einzel update
     void GotItems(SocketIOEvent inmsg) {
        	Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
+		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; int tmpIsland = -1; int tmpPickID = -1;
+
         JSONObject injson = inmsg.data as JSONObject;
+		tmpID = int.Parse(injson["itemId"].str);
+		tmpX = float.Parse(injson["itemPosX"].str);
+		tmpY = float.Parse(injson["itemPosY"].str);
+		tmpZ = float.Parse(injson["itemPosZ"].str);
+		tmpIsland = int.Parse(injson["itemCurIsland"].str);
+		tmpPickID = int.Parse(injson["itemPickId"].str);
+
+		MainScript.Items[tmpID].itemPos = new Vector3 (tmpX,tmpY,tmpZ);
+		MainScript.Items[tmpID].curIsland = tmpIsland;
+		MainScript.Items[tmpID].pickedById = tmpPickID;
+
+		MainScript.Items[tmpID].updatePos = true;
+
         //print("Item:->" + injson["itemId"].str +" CurIsland "+ injson["itemCurIsland"].str 
         //    + " PickID" + injson["itemCurIsland"].str + " x " + injson["itemPosX"].str + " y " 
         //    + injson["itemPosY"].str + " z " + injson["itemPosZ"].str);
