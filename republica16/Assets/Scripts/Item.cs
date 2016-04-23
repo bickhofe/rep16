@@ -42,9 +42,10 @@ public class Item : MonoBehaviour
     }
 
 	//update aufruf von main script
-//	public void UpdateItem() {
-//		if (pickedById == -1) transform.position = itemPos;
-//	}
+	/// rumtragen vom 3sek updaten ausschliessen!!! zeile 25!!
+	public void UpdateItem() {
+		if (pickedById == -1) transform.position = itemPos;
+	}
 
     void OnTriggerEnter(Collider Portal) {
 		print ("Enter portal");
