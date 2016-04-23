@@ -34,7 +34,12 @@ public class Main : MonoBehaviour {
 	public int curItem = -1;
     public int pickId = -1;
 
-    public int[] spawnPointList;
+    //spielstatus
+	public string tempStatus;
+    public string gameStatus = ""; 
+
+    //inital item positionen
+	public int[] spawnList;
 
 	public float radius = 3;
 	Vector3 center;
@@ -61,7 +66,7 @@ public class Main : MonoBehaviour {
 			CamContainer.SetActive (true);
 		}
 
-		if (HumanPlayerID == 0) SpawnItems();
+		//if (HumanPlayerID == 0) SpawnItems();
 
         //init player position
         foreach (Player player in Players) {
@@ -72,6 +77,17 @@ public class Main : MonoBehaviour {
     void Update() {
 
         debugTextObj.text = debugText;
+
+        if (tempStatus != gameStatus) {
+        	gameStatus = tempStatus;
+
+        	//fragt bei wechsel von pause zu running einmal die neuen shuffled liste an
+        	if (gameStatus == "running") {
+        		print("order shuffle");
+				ServerScript.GetShuffle();
+        	}
+        }
+
 
         //timer 
         if (time < updateTime) time += Time.deltaTime;
@@ -93,10 +109,27 @@ public class Main : MonoBehaviour {
     // 8-11 plants
     // 12-15 stuff
 
+	public void ProcessShuffleData(string data){
+		spawnList = new int[16];
+
+		int count = 0;
+		foreach(var s in data.Split(',')) {
+	        int num;
+	        if (int.TryParse(s, out num)){
+				spawnList[count] = num;
+				count++;
+	        }			
+	    }
+
+	    SpawnItems();
+	}
+
 	void SpawnItems() {
 		Vector3 itemRingPos;
 
         // items im kreis um die holes verteilen
+		itemCount = 0;
+
         for (int i = 0; i < 4; i++) {
             center = islandCenterPoints[i];
 
@@ -107,19 +140,17 @@ public class Main : MonoBehaviour {
 				itemRingPos = new Vector3(x,2,y) + center;
 
 				// write parameters (cur island, homezone
-				Items[spawnPointList[itemCount]].itemPos = itemRingPos;
-				Items[spawnPointList[itemCount]].curIsland = i;
-				Items[spawnPointList[itemCount]].updatePos = true;
+				Items[spawnList[itemCount]].itemPos = itemRingPos;
+				Items[spawnList[itemCount]].curIsland = i;
+				Items[spawnList[itemCount]].updatePos = true;
 
 				itemCount++;
             }
         }
 
         // Initialer Post der item positionen an den server
-		for (int i=0; i<16; i++){
-			if (Items[i].pickedById != -1) {
-				ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickedById);
-			}
+		for (int i=0; i<16; i++){				
+			ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickedById);
 		}
     }
 

@@ -30,30 +30,31 @@ public class ServerComm : MonoBehaviour {
     }
 
 
-    void GotShuffled(SocketIOEvent inmsg)
-    {
+    void GotShuffled(SocketIOEvent inmsg) {
         Debug.Log("[SocketIO] Shuffle data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
-        print ("Shuffle: " + injson["shuffle"].str);
+		MainScript.ProcessShuffleData(injson["shuffle"].str);
+        //print ("Shuffle: " + injson["shuffle"].str);
     }
 
 	void GotTimetick(SocketIOEvent inmsg) { //timer
         //Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
+		MainScript.tempStatus = injson["state"].str; 
         //print ("State: " + injson["state"].str + "- tick " + injson["tick"].str );
        }
 
     //komplette item update (16mal) oder einzel update
     void GotItems(SocketIOEvent inmsg) {
-        Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
+       	Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
-        print("Item:->" + injson["itemId"].str +" CurIsland "+ injson["itemCurIsland"].str 
-            + " PickID" + injson["itemCurIsland"].str + " x " + injson["itemPosX"].str + " y " 
-            + injson["itemPosY"].str + " z " + injson["itemPosZ"].str);
+        //print("Item:->" + injson["itemId"].str +" CurIsland "+ injson["itemCurIsland"].str 
+        //    + " PickID" + injson["itemCurIsland"].str + " x " + injson["itemPosX"].str + " y " 
+        //    + injson["itemPosY"].str + " z " + injson["itemPosZ"].str);
     }
 
     void GotPlayerPosData(SocketIOEvent inmsg) {
-        Debug.Log("[SocketIO] Pos data received: " + inmsg.name + " " + inmsg.data);
+        //Debug.Log("[SocketIO] Pos data received: " + inmsg.name + " " + inmsg.data);
         int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
 
         JSONObject injson = inmsg.data as JSONObject;
@@ -91,9 +92,9 @@ public class ServerComm : MonoBehaviour {
        //print("send");
         Dictionary<string, string> message = new Dictionary<string, string>();
 		message.Add("playerId", ID.ToString());
-		message.Add("playerPosX", pos.x.ToString());
-		message.Add("playerPosY", pos.y.ToString());
-		message.Add("playerPosZ", pos.z.ToString());
+		message.Add("playerPosX", Math.Round(pos.x,2).ToString());
+		message.Add("playerPosY", Math.Round(pos.y,2).ToString());
+		message.Add("playerPosZ", Math.Round(pos.z,2).ToString());
 		message.Add("playerAngle", ang.ToString());
         message.Add("playerHeadX", "1.0");
         message.Add("playerHeadY", "1.0");
@@ -103,11 +104,12 @@ public class ServerComm : MonoBehaviour {
 
     //einzelnes items updaten
     public void UpdateItems(int ID, Vector3 pos, int curIsland, int pickedID) {
+		//print(Math.Round(pos.x,2));
         Dictionary<string, string> message = new Dictionary<string, string>();
 		message.Add("itemId", ID.ToString());
-		message.Add("itemPosX", pos.x.ToString());
-		message.Add("itemPosY", pos.y.ToString());
-		message.Add("itemPosZ", pos.z.ToString());
+		message.Add("itemPosX", Math.Round(pos.x,2).ToString());
+		message.Add("itemPosY", Math.Round(pos.y,2).ToString());
+		message.Add("itemPosZ", Math.Round(pos.z,2).ToString());
 		message.Add("itemCurIsland", curIsland.ToString());
 		message.Add("itemPickId", pickedID.ToString());
         socket.Emit("onUpdateItem", new JSONObject(message));

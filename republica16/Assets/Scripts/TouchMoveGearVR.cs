@@ -84,6 +84,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 		}
 
 		//fall from cliff
+		//if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
 		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
 	}
 		
@@ -132,7 +133,8 @@ public class TouchMoveGearVR : MonoBehaviour {
     }
 
     public void TeleportPlayer(Vector3 teleportPos) {
-        rb.velocity = Vector3.zero;
+		//send player position updaten to server!
+		rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;
         transform.eulerAngles = Vector3.zero;

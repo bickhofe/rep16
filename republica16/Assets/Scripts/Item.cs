@@ -21,6 +21,7 @@ public class Item : MonoBehaviour
     }
 
     void Update() {
+
 		if (updatePos) {
 			transform.position = itemPos;
 			updatePos = false;
@@ -35,6 +36,9 @@ public class Item : MonoBehaviour
 		} else {
 			rb.useGravity = true; 
 		}
+
+		//fall from cliff
+		if (transform.position.y < -25) TeleportItem(MainScript.startPoint[curIsland]);
     }
 
 	//update aufruf von main script
@@ -61,6 +65,7 @@ public class Item : MonoBehaviour
 	}
 
     public void TeleportItem(Vector3 teleportPos) {
+    	//send item position updaten to server!
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;

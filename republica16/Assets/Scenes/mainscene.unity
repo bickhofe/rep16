@@ -668,7 +668,7 @@ MonoBehaviour:
   ServerScript: {fileID: 0}
   gametime: 0
   state: 
-  HumanPlayerID: 0
+  HumanPlayerID: 1
   MainCam: {fileID: 0}
   CamContainer: {fileID: 1598331814}
   SpectatorCam: {fileID: 1598444126}

@@ -26,7 +26,6 @@ public class Player : MonoBehaviour {
 		} else {
 			//eigenen character unsichtbar machen
 			transform.Find("Character").gameObject.SetActive(false);
-
 		}
 
         curIsland = playerID;
