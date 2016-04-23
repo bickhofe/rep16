@@ -68,6 +68,7 @@ public class Item : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;
+		itemPos = transform.position;
         transform.eulerAngles = Vector3.zero;
 
 		//send item position updaten to server!
