@@ -37,10 +37,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 961346d7e16a445ff93777573e78efd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ca690235e05a7b44868be27e70e3274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: 77733a2f2f3132372e302e302e313a343536372f736f636b65742e696f2f3f45494f3d34267472616e73706f72743d776562736f636b6574
+  url: ws://104.155.72.59:3000/socket.io/?EIO=4&transport=websocket
   autoConnect: 1
   reconnectDelay: 5
   ackExpirationTime: 1800

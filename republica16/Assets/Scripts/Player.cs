@@ -5,7 +5,6 @@ public class Player : MonoBehaviour {
 
 	public Main MainScript;
 
-
     public int playerID;
 	public Vector3 playerPos;
     public float playerAngle;
@@ -13,6 +12,7 @@ public class Player : MonoBehaviour {
     public Color _color;
     public int curIsland;
 	public bool updatePos = false;
+	Vector3 camRotation;
 
 	Collider col;
 
@@ -22,10 +22,10 @@ public class Player : MonoBehaviour {
 		col = GetComponent<Collider>();
 
 		if (playerID != MainScript.CharacterPlayerID) {
-			transform.Find("Character").GetComponent<Renderer>().material.color = _color;
+			//transform.Find("Character").GetComponent<Renderer>().material.color = _color;
 		} else {
 			//eigenen character unsichtbar machen
-			transform.Find("Character").gameObject.SetActive(false);
+			//transform.Find("Character").gameObject.SetActive(false);
 		}
 
         curIsland = playerID;
@@ -35,12 +35,16 @@ public class Player : MonoBehaviour {
 		if (MainScript.CharacterPlayerID == playerID) {
 			//position von camera holen
 			transform.position = MainScript.CamContainer.transform.position;
+			camRotation = MainScript.MainCam.transform.eulerAngles;
+			transform.eulerAngles = new Vector3(0, camRotation.y, 0); 
 
 			//player pos parameter setzen
 			playerPos = MainScript.CamContainer.transform.position;
+			playerAngle = camRotation.y;
 		} else {
 			if (updatePos) {
 				transform.position = playerPos;
+				transform.eulerAngles = new Vector3(0, playerAngle, 0); 
 				updatePos = false;
 			}
 		}

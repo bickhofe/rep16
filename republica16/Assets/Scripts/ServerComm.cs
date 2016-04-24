@@ -28,6 +28,16 @@ public class ServerComm : MonoBehaviour {
         socket.On("shuffled", GotShuffled);
         socket.On("onItemRefresh", GotItems);
         socket.On("onPlayerPos", GotPlayerPosData);
+		socket.On("onIslandComplete", GotGameOverData);
+    }
+
+	void GotGameOverData(SocketIOEvent inmsg) {
+        Debug.Log("[SocketIO] GameOver data received: " + inmsg.name + " " + inmsg.data);
+        JSONObject injson = inmsg.data as JSONObject;
+
+        //neue id sequence senden
+		MainScript.PlayerWon(injson["player"].str);
+        //print ("Shuffle: " + injson["shuffle"].str);
     }
 
 	void GotCharacter(SocketIOEvent inmsg) {
@@ -91,6 +101,7 @@ public class ServerComm : MonoBehaviour {
 
         //// daten empfangen und an die playerscripte weiterleiten
         MainScript.Players[tmpID].playerPos = new Vector3 (tmpX,tmpY,tmpZ);
+		MainScript.Players[tmpID].playerAngle = tmpAng;
         MainScript.Players [tmpID].updatePos = true;
         //MainScript.debugText = tmpID.ToString();
     }
@@ -103,15 +114,15 @@ public class ServerComm : MonoBehaviour {
             //GetShuffle();
 			//MainScript.UpdateCharacterID(1);
 			GetCharacter();
-			print("spac");
+
         }
 
         ////Mouse Click
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 testitempos = new Vector3(1.1f, 1.1f, 1.1f);
+            //Vector3 testitempos = new Vector3(1.1f, 1.1f, 1.1f);
             //id, pos, cur island, user
-            UpdateItems(12, testitempos, 1, 2);
+            //UpdateItems(12, testitempos, 1, 2);
         }
 
     }
@@ -144,7 +155,7 @@ public class ServerComm : MonoBehaviour {
     }
 
 	public void GetCharacter() {
-        Dictionary<string, string> message = new Dictionary<string, string>();
+		Dictionary<string, string> message = new Dictionary<string, string>();
         message.Add("newshuffle", "character");
         socket.Emit("pshuffle", new JSONObject());
     }

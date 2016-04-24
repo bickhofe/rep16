@@ -21,13 +21,13 @@ public class Item : MonoBehaviour
     }
 
     void Update() {
-
 		if (updatePos) {
 			transform.position = itemPos;
 			updatePos = false;
 		}
 
 		if (pickedById != -1) {
+			print("dd");
 			rb.useGravity = false;
 			Transform CamTransform =  MainScript.MainCam.transform;
 			transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;

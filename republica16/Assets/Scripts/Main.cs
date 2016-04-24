@@ -63,12 +63,12 @@ public class Main : MonoBehaviour {
 
     void Update() {
 
-        debugTextObj.text = debugText;
+        //debugTextObj.text = debugText;
 
         if (tempStatus != gameStatus) {
         	gameStatus = tempStatus;
 
-        	//fragt bei wechsel von pause zu running einmal die neuen shuffled liste an
+        	//fragt initial UND bei wechsel von pause zu running einmal die neuen shuffled liste an
         	if (gameStatus == "running") {
         		print("order shuffle");
         		ServerScript.GetCharacter();
@@ -91,15 +91,22 @@ public class Main : MonoBehaviour {
         }
     }
 
+    public void PlayerWon(string playerId){
+    	print("Player"+playerId+ "won!");
+    }
+
     public void UpdateCharacterID(string idlist){
 
 		string[] ids = idlist.Split(',');
 		CharacterPlayerID = int.Parse(ids[DeviceId]);
 
-		if (CharacterPlayerID == -1) {
+		//switch to specatror cam
+		if (DeviceId == -1) {
+			print("spec");
 			SpectatorCam.SetActive (true);
 			CamContainer.SetActive (false);
 		} else {
+			print("player");
 			SpectatorCam.SetActive (false);
 			CamContainer.SetActive (true);
 		}

@@ -75,8 +75,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 		}
 
 		//reset
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
+		if (Input.GetKeyDown(KeyCode.Escape)) {
 			rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
 			transform.position = new Vector3 (1.6f, 1f, -11.3f);
@@ -84,11 +83,10 @@ public class TouchMoveGearVR : MonoBehaviour {
 		}
 
 		//fall from cliff
-		//if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.HumanPlayerID].curIsland]);
 		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
 	}
 		
-	void PickDropObject(){
+	void PickDropObject() {
 		print ("pick/drop");
 		if (MainScript.curItem == -1) { //player hat nichts in der hand
 			MainScript.tryPickObj();
