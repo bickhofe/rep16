@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LookAtSettings : MonoBehaviour {
 
@@ -17,7 +18,7 @@ public class LookAtSettings : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (0) && curID != -1) {
 			PlayerPrefs.SetInt("DeviceID",curID);
-			Application.LoadLevel("mainscene");
+			SceneManager.LoadScene("mainscene");
 		} 
 
         //debug

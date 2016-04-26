@@ -43,10 +43,10 @@ namespace SocketIO
 		#region Public Properties
 		public string url = "ws://104.155.72.59:3000/socket.io/?EIO=4&transport=websocket";
 		public bool autoConnect = true;
-		public int reconnectDelay = 5;
-		public float ackExpirationTime = 1800f;
-		public float pingInterval = 25f;
-		public float pingTimeout = 60f;
+		public int reconnectDelay = 3;
+		public float ackExpirationTime = 800f;
+		public float pingInterval = 15f;
+		public float pingTimeout = 20f;
 
 		public WebSocket socket { get { return ws; } }
 		public string sid { get; set; }

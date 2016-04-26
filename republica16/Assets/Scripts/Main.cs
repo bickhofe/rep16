@@ -108,7 +108,7 @@ public class Main : MonoBehaviour {
     }
 
 	public void UpdateTime(string time){
-		print("stat"+gameStatus);
+		//print("stat"+gameStatus);
 		if (gameStatus == "paused") {
 			GazeTimeText.text =  "Pause: "+time;
 			GazeMsgText.text =  "Please wait...";
@@ -132,11 +132,11 @@ public class Main : MonoBehaviour {
 
 		//switch to specatror cam
 		if (DeviceId == -1) {
-			print("spec");
+			//print("spec");
 			SpectatorCam.SetActive (true);
 			CamContainer.SetActive (false);
 		} else {
-			print("player");
+			//print("player");
 			SpectatorCam.SetActive (false);
 			CamContainer.SetActive (true);
 		}
@@ -198,7 +198,7 @@ public class Main : MonoBehaviour {
     }
 
     public void tryPickObj(){
-    print("try");
+    //print("try");
     	if (focusItem != -1) {
 			Items[focusItem].pickedById = CharacterPlayerID;
 			curItem = focusItem;

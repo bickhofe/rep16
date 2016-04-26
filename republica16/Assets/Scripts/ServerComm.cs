@@ -32,7 +32,7 @@ public class ServerComm : MonoBehaviour {
     }
 
 	void GotGameOverData(SocketIOEvent inmsg) {
-        Debug.Log("[SocketIO] GameOver data received: " + inmsg.name + " " + inmsg.data);
+        //Debug.Log("[SocketIO] GameOver data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
 
         //neue id sequence senden
@@ -41,7 +41,7 @@ public class ServerComm : MonoBehaviour {
     }
 
 	void GotCharacter(SocketIOEvent inmsg) {
-        Debug.Log("[SocketIO] Character data received: " + inmsg.name + " " + inmsg.data);
+        //Debug.Log("[SocketIO] Character data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
 
         //neue id sequence senden
@@ -51,7 +51,7 @@ public class ServerComm : MonoBehaviour {
 
 
     void GotShuffled(SocketIOEvent inmsg) {
-        Debug.Log("[SocketIO] Shuffle data received: " + inmsg.name + " " + inmsg.data);
+        //Debug.Log("[SocketIO] Shuffle data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
 		MainScript.ProcessShuffleData(injson["shuffle"].str);
         //print ("Shuffle: " + injson["shuffle"].str);
@@ -71,7 +71,10 @@ public class ServerComm : MonoBehaviour {
 		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; int tmpIsland = -1; int tmpPickID = -1;
 
         JSONObject injson = inmsg.data as JSONObject;
-		tmpID = int.Parse(injson["itemId"].str);
+
+		int.TryParse(injson["itemId"].str, out tmpID);
+
+		//tmpID = int.Parse(injson["itemId"].str);
 		tmpX = float.Parse(injson["itemPosX"].str);
 		tmpY = float.Parse(injson["itemPosY"].str);
 		tmpZ = float.Parse(injson["itemPosZ"].str);

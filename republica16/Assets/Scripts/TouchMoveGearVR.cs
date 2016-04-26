@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TouchMoveGearVR : MonoBehaviour {
 
@@ -83,7 +84,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 		//reset
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Application.LoadLevel("titlescreen");
+			SceneManager.LoadScene("titlescreen");
 //			rb.velocity = Vector3.zero;
 //			rb.angularVelocity = Vector3.zero;
 //			transform.position = new Vector3 (1.6f, 1f, -11.3f);
@@ -107,7 +108,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 	}
 		
 	void PickDropObject() {
-		print ("pick/drop");
+		//print ("pick/drop");
 		if (MainScript.curItem == -1) { //player hat nichts in der hand
 			MainScript.tryPickObj();
 		} else {
