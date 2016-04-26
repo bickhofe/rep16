@@ -86,7 +86,7 @@ public class Main : MonoBehaviour {
 
         	//fragt initial UND bei wechsel von pause zu running einmal die neuen shuffled liste an
         	if (gameStatus == "running") {
-        		print("order shuffle");
+        		//print("order shuffle");
         		ServerScript.GetCharacter();
 				ServerScript.GetShuffle();
         	}

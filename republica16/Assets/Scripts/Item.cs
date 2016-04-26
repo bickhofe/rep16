@@ -32,7 +32,6 @@ public class Item : MonoBehaviour
 		}
 
 		if (pickedById != -1) {
-			print("dd");
 			rb.useGravity = false;
 			Transform CamTransform =  MainScript.MainCam.transform;
 			transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;

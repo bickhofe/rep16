@@ -16,7 +16,8 @@ public class LookAtSettings : MonoBehaviour {
 
     void Update() {
 
-		if (Input.GetMouseButtonDown (0) && curID != -1) {
+		if (Input.GetMouseButtonDown (0)) {
+			if (curID == 4) curID = -1;
 			PlayerPrefs.SetInt("DeviceID",curID);
 			SceneManager.LoadScene("mainscene");
 		} 
@@ -37,6 +38,7 @@ public class LookAtSettings : MonoBehaviour {
 				else if (hit.collider.name == "ID1") curID = 1;
 				else if (hit.collider.name == "ID2") curID = 2;
 				else if (hit.collider.name == "ID3") curID = 3;
+				else if (hit.collider.name == "Spec") curID = 4;
 
 				if (lastID != curID){
 					lastID = curID;
@@ -57,6 +59,7 @@ public class LookAtSettings : MonoBehaviour {
 		idObjects[1].GetComponent<Text>().color = new Color(1,1,1,.25f);
 		idObjects[2].GetComponent<Text>().color = new Color(1,1,1,.25f);
 		idObjects[3].GetComponent<Text>().color = new Color(1,1,1,.25f);
+		idObjects[4].GetComponent<Text>().color = new Color(1,1,1,.25f);
 
 		idObjects[id].GetComponent<Text>().color = new Color(1,1,1,1f);
     }
