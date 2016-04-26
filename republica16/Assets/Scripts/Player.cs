@@ -14,21 +14,27 @@ public class Player : MonoBehaviour {
 	public bool updatePos = false;
 	Vector3 camRotation;
 
+	bool restart = true;
+	GameObject Monster;
+
 	Collider col;
 
     // Use this for initialization
     void Start () {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
 		col = GetComponent<Collider>();
-
-		if (playerID != MainScript.CharacterPlayerID) {
-			//transform.Find("Character").GetComponent<Renderer>().material.color = _color;
-		} else {
-			//eigenen character unsichtbar machen
-			//transform.Find("Character").gameObject.SetActive(false);
-		}
-
+		Monster = transform.Find("Character/Monster").gameObject;
+		InitMonster();
         curIsland = playerID;
+    }
+
+    //macht den eigenen playercharacter unsichtbar
+    public void InitMonster(){
+		if (playerID != MainScript.CharacterPlayerID) {
+			Monster.SetActive(true);
+		} else {
+			Monster.SetActive(false);
+		}
     }
 	
 	void Update() {

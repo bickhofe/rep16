@@ -5,6 +5,9 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 	public Main MainScript;
 
+	//sound
+	public SoundFX SndScript;
+
     Camera MainCam;
 	public bool GearVRMode = false;
 	//TextMesh debugText;
@@ -13,6 +16,8 @@ public class TouchMoveGearVR : MonoBehaviour {
 	bool doubleClick = false;
 	public float doubleClickDelay = .5f;
 	float time = 0;
+
+	bool drown = false;
 
 	public bool canJump = true;
 
@@ -26,6 +31,8 @@ public class TouchMoveGearVR : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		MainScript = GameObject.Find("Main").GetComponent<Main>();
+
+		SndScript = GameObject.Find("Environment").GetComponent<SoundFX>();
 
         MainCam = Camera.main;
         //debugText = GameObject.Find ("debugText").GetComponent<TextMesh> ();
@@ -76,14 +83,27 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 		//reset
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			rb.velocity = Vector3.zero;
-			rb.angularVelocity = Vector3.zero;
-			transform.position = new Vector3 (1.6f, 1f, -11.3f);
-			transform.eulerAngles = Vector3.zero;
+			Application.LoadLevel("titlescreen");
+//			rb.velocity = Vector3.zero;
+//			rb.angularVelocity = Vector3.zero;
+//			transform.position = new Vector3 (1.6f, 1f, -11.3f);
+//			transform.eulerAngles = Vector3.zero;
 		}
 
 		//fall from cliff
-		if (transform.position.y < -25) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
+
+		if (transform.position.y < -10 && transform.position.y > -15 && !drown) {
+			drown = true;
+			SndScript.PlayAudio(SndScript.fallwater);
+		}
+
+		if (transform.position.y < -25) {
+			TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
+			SndScript.PlayAudio(SndScript.drown);
+			drown = false;
+		}
+
+
 	}
 		
 	void PickDropObject() {
@@ -128,6 +148,8 @@ public class TouchMoveGearVR : MonoBehaviour {
 		else if (IslandID == 3) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 1;
 
 		TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
+
+		SndScript.PlayAudio(SndScript.tuberide);
     }
 
     public void TeleportPlayer(Vector3 teleportPos) {

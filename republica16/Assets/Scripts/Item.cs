@@ -5,6 +5,9 @@ public class Item : MonoBehaviour
 {
     public Main MainScript;
 
+	//sound
+	public SoundFX SndScript;
+
     public int itemID;
     //public int zoneID;
     public Vector3 itemPos;
@@ -18,6 +21,8 @@ public class Item : MonoBehaviour
     void Start() {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
 		rb = GetComponent<Rigidbody>();
+
+		SndScript = GameObject.Find("Environment").GetComponent<SoundFX>();
     }
 
     void Update() {
@@ -63,6 +68,7 @@ public class Item : MonoBehaviour
 			curIsland = 1;
 
 		TeleportItem (MainScript.startPoint [curIsland]);
+		SndScript.PlayAudio(SndScript.senditem);
 	}
 
     public void TeleportItem(Vector3 teleportPos) {
@@ -72,7 +78,7 @@ public class Item : MonoBehaviour
 		itemPos = transform.position;
         transform.eulerAngles = Vector3.zero;
 
-		//send item position updaten to server!
+		//send item position update to server!
 		MainScript.ServerScript.UpdateItems (itemID, itemPos, curIsland, pickedById);
     }
 }

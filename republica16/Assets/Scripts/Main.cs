@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Main : MonoBehaviour {
 
@@ -8,8 +9,16 @@ public class Main : MonoBehaviour {
     public TextMesh debugTextObj;
     public string debugText;
 
+    //hud
+	Text GazeTimeText;
+	Text GazeMsgText;
+	Text GazeIslandText;
+
     //comm
 	public ServerComm ServerScript;
+
+	//sound
+	public SoundFX SndScript;
 
     //serverdaten
     public int gametime;
@@ -22,7 +31,7 @@ public class Main : MonoBehaviour {
 	public GameObject CamContainer;
 	public GameObject SpectatorCam;
 
-    // 0=food, 1=tech, 2=plant, 3=stuff/tools
+    public string[] islandNames;
 
 	public Vector3[] islandCenterPoints;
     public Vector3[] startPoint; //drop off
@@ -54,16 +63,23 @@ public class Main : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+		DeviceId = PlayerPrefs.GetInt("DeviceID");
+
         debugTextObj = GameObject.Find("debugText").GetComponent<TextMesh>();
         ServerScript = GetComponent<ServerComm>();
 
+		SndScript = GameObject.Find("Environment").GetComponent<SoundFX>();
+
         MainCam = Camera.main;
 		CamContainer.SetActive (false);
+		GazeTimeText = GameObject.Find("hudTime").GetComponent<Text>();
+		GazeMsgText = GameObject.Find("hudMessage").GetComponent<Text>();
+		GazeIslandText = GameObject.Find("hudIsland").GetComponent<Text>();
+
+		GazeIslandText.text =  "You are here:\n"+islandNames[Players[CharacterPlayerID].curIsland]+" Island";
     }
 
     void Update() {
-
-        //debugTextObj.text = debugText;
 
         if (tempStatus != gameStatus) {
         	gameStatus = tempStatus;
@@ -91,6 +107,19 @@ public class Main : MonoBehaviour {
         }
     }
 
+	public void UpdateTime(string time){
+		print("stat"+gameStatus);
+		if (gameStatus == "paused") {
+			GazeTimeText.text =  "Pause: "+time;
+			GazeMsgText.text =  "Please wait...";
+		} else {
+			GazeTimeText.text =  "Time: "+time;
+			GazeMsgText.text =  "Bring all "+islandNames[CharacterPlayerID]+" items to your island!";
+		}
+
+		//GazeMsgText =  "";
+    }
+
     public void PlayerWon(string playerId){
     	print("Player"+playerId+ "won!");
     }
@@ -99,6 +128,7 @@ public class Main : MonoBehaviour {
 
 		string[] ids = idlist.Split(',');
 		CharacterPlayerID = int.Parse(ids[DeviceId]);
+		Players[CharacterPlayerID].InitMonster();
 
 		//switch to specatror cam
 		if (DeviceId == -1) {
@@ -173,12 +203,14 @@ public class Main : MonoBehaviour {
 			Items[focusItem].pickedById = CharacterPlayerID;
 			curItem = focusItem;
 			Items[focusItem].UpdateItem();
+			SndScript.PlayAudio(SndScript.pick);
     	}
     }
 
     public void dropObj(){
 		Items[curItem].pickedById = -1;
 		curItem = -1;
+		SndScript.PlayAudio(SndScript.drop);
     }
 }
 

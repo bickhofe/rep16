@@ -61,7 +61,8 @@ public class ServerComm : MonoBehaviour {
         //Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
 		MainScript.tempStatus = injson["state"].str; 
-        //print ("State: " + injson["state"].str + "- tick " + injson["tick"].str );
+		MainScript.UpdateTime(injson["tick"].str);
+		//print ("State: " + injson["state"].str + "- tick " + injson["tick"].str );
        }
 
     //komplette item update (16mal) oder einzel update
