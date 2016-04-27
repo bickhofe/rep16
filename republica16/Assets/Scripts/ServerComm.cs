@@ -58,7 +58,7 @@ public class ServerComm : MonoBehaviour {
     }
 
 	void GotTimetick(SocketIOEvent inmsg) { //timer
-        //Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
+        Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
 		MainScript.tempStatus = injson["state"].str; 
 		MainScript.UpdateTime(injson["tick"].str);

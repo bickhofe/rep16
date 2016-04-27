@@ -9,7 +9,8 @@ public class TouchMoveGearVR : MonoBehaviour {
 	//sound
 	public SoundFX SndScript;
 
-    Camera MainCam;
+    //public GameObject MainCam;
+
 	public bool GearVRMode = false;
 	//TextMesh debugText;
 
@@ -35,7 +36,6 @@ public class TouchMoveGearVR : MonoBehaviour {
 
 		SndScript = GameObject.Find("Environment").GetComponent<SoundFX>();
 
-        MainCam = Camera.main;
         //debugText = GameObject.Find ("debugText").GetComponent<TextMesh> ();
 		rb = GetComponent<Rigidbody> ();
 
@@ -133,7 +133,7 @@ public class TouchMoveGearVR : MonoBehaviour {
 			dirZ = Input.GetAxis ("Vertical");
 		}
 
-        Vector3 dir = Quaternion.Euler(new Vector3 (0,MainCam.transform.localEulerAngles.y,0)) * Vector3.forward;
+		Vector3 dir = Quaternion.Euler(new Vector3 (0,MainScript.MainCam.transform.localEulerAngles.y,0)) * Vector3.forward;
         transform.position += dirZ * dir * force;
 
         //MainScript.debugText.text = dirZ+"\n"+dirX;

@@ -9,9 +9,6 @@ public class LookAt : MonoBehaviour {
 	RectTransform Gaze;
 	Text GazeText;
 
-    public GameObject VRCamHead;
-    // Update is called once per frame
-
 	void Start(){
 		MainScript = GameObject.Find("Main").GetComponent<Main>();
 
@@ -22,11 +19,11 @@ public class LookAt : MonoBehaviour {
     void Update() {
 
         //debug
-       	Vector3 forward = VRCamHead.transform.TransformDirection(Vector3.forward) * 10;
-        Debug.DrawRay(VRCamHead.transform.position, forward, Color.green);
+		Vector3 forward = MainScript.MainCam.transform.TransformDirection(Vector3.forward) * 10;
+		Debug.DrawRay(MainScript.MainCam.transform.position, forward, Color.green);
 
         RaycastHit hit;
-		if (Physics.Raycast (VRCamHead.transform.position, VRCamHead.transform.forward, out hit, 4)) {
+		if (Physics.Raycast (MainScript.MainCam.transform.position, MainScript.MainCam.transform.forward, out hit, 4)) {
 			
 			print ("hit: " + hit.collider.name);
 
@@ -37,6 +34,7 @@ public class LookAt : MonoBehaviour {
 
 				// get temp itemscript
 				Item ItemScript;
+
 				if (MainScript.focusItem == -1) {
 					ItemScript = hit.collider.GetComponent<Item> ();
 					MainScript.focusItem = ItemScript.itemID;

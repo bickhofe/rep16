@@ -27,7 +27,8 @@ public class Main : MonoBehaviour {
     //player control
     public int DeviceId;
     public int CharacterPlayerID = -1;
-    public Camera MainCam;
+    public GameObject MainCam;
+
 	public GameObject CamContainer;
 	public GameObject SpectatorCam;
 
@@ -70,7 +71,7 @@ public class Main : MonoBehaviour {
 
 		SndScript = GameObject.Find("Environment").GetComponent<SoundFX>();
 
-        MainCam = Camera.main;
+        //MainCam = Camera.main;
 		CamContainer.SetActive (false);
 		GazeTimeText = GameObject.Find("hudTime").GetComponent<Text>();
 		GazeMsgText = GameObject.Find("hudMessage").GetComponent<Text>();

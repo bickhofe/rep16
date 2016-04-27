@@ -35,6 +35,10 @@ public class Item : MonoBehaviour
 			rb.useGravity = false;
 			Transform CamTransform =  MainScript.MainCam.transform;
 			transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;
+
+			//Transform PlayerTransform =  MainScript.Players[MainScript.CharacterPlayerID].transform;
+			//transform.position = new Vector3(PlayerTransform.position.x,1,PlayerTransform.position.z) + PlayerTransform.forward*2;
+
 			if (transform.localPosition.y < -6) transform.localPosition = new Vector3(transform.localPosition.x,-6,transform.localPosition.z);
 
 		} else {
