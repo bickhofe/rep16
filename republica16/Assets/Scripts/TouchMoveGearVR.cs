@@ -73,6 +73,13 @@ public class TouchMoveGearVR : MonoBehaviour {
 			doubleClick = false;
 		}
 
+		if (Input.GetButton("Fire1") && !doubleClick) {
+			doubleClick = true;
+		} else if (Input.GetButton("Fire1") && doubleClick && canJump) {
+			PickDropObject ();
+			doubleClick = false;
+		}
+
 		if (doubleClick) {
 			if (time <= doubleClickDelay) {
 				time += Time.deltaTime;

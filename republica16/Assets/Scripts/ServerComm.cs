@@ -58,7 +58,7 @@ public class ServerComm : MonoBehaviour {
     }
 
 	void GotTimetick(SocketIOEvent inmsg) { //timer
-        Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
+        //Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
 		MainScript.tempStatus = injson["state"].str; 
 		MainScript.UpdateTime(injson["tick"].str);
@@ -67,7 +67,7 @@ public class ServerComm : MonoBehaviour {
 
     //komplette item update (16mal) oder einzel update
     void GotItems(SocketIOEvent inmsg) {
-       	//Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
+       	Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
 		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; int tmpIsland = -1; int tmpPickID = -1;
 
         JSONObject injson = inmsg.data as JSONObject;

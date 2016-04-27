@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692558, g: 0.49678743, b: 0.57508624, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.57508564, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -515,10 +515,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 25, z: 0}
---- !u!1 &88133340 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100004, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
-  m_PrefabInternal: {fileID: 1965546597}
 --- !u!1001 &105549044
 Prefab:
   m_ObjectHideFlags: 0
@@ -744,6 +740,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 25, z: 0}
+--- !u!1 &159534364 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
+  m_PrefabInternal: {fileID: 1965546597}
 --- !u!1001 &159769538
 Prefab:
   m_ObjectHideFlags: 0
@@ -1015,7 +1015,7 @@ MonoBehaviour:
   state: 
   DeviceId: 0
   CharacterPlayerID: 0
-  MainCam: {fileID: 88133340}
+  MainCam: {fileID: 159534364}
   CamContainer: {fileID: 1598331814}
   SpectatorCam: {fileID: 1598444126}
   islandNames:
@@ -7612,6 +7612,11 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: ecc3a9a5a6937f242a0279a4474c8f3f, type: 3}
   m_PrefabInternal: {fileID: 1832048633}
+--- !u!20 &1849358010 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 2000004, guid: 691bf3e71b387435bb6304e28d671b2f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1965546597}
 --- !u!1 &1872600759
 GameObject:
   m_ObjectHideFlags: 0
@@ -7716,11 +7721,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 78b574f3ea676eb49b80e565e3354236, type: 3}
   m_PrefabInternal: {fileID: 1908829576}
---- !u!20 &1917146029 stripped
-Camera:
-  m_PrefabParentObject: {fileID: 2000004, guid: 691bf3e71b387435bb6304e28d671b2f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1965546597}
 --- !u!1 &1930127547 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 2b478d6c85947ed4ebefc1b8ebab568d, type: 2}
@@ -8430,7 +8430,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 2
   m_RenderMode: 1
-  m_Camera: {fileID: 1917146029}
+  m_Camera: {fileID: 1849358010}
   m_PlaneDistance: 0.5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
