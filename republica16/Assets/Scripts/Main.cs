@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Main : MonoBehaviour {
 
@@ -12,7 +13,7 @@ public class Main : MonoBehaviour {
     //hud
 	Text GazeTimeText;
 	Text GazeMsgText;
-	Text GazeIslandText;
+	public Text GazeIslandText;
 
     //comm
 	public ServerComm ServerScript;
@@ -76,11 +77,13 @@ public class Main : MonoBehaviour {
 		GazeTimeText = GameObject.Find("hudTime").GetComponent<Text>();
 		GazeMsgText = GameObject.Find("hudMessage").GetComponent<Text>();
 		GazeIslandText = GameObject.Find("hudIsland").GetComponent<Text>();
-
-		GazeIslandText.text =  "You are here:\n"+islandNames[Players[CharacterPlayerID].curIsland]+" Island";
     }
 
     void Update() {
+		//reset
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			SceneManager.LoadScene("titlescreen");
+		}
 
         if (tempStatus != gameStatus) {
         	gameStatus = tempStatus;
@@ -115,7 +118,7 @@ public class Main : MonoBehaviour {
 			GazeMsgText.text =  "Please wait...";
 		} else {
 			GazeTimeText.text =  "Time: "+time;
-			GazeMsgText.text =  "Bring all "+islandNames[CharacterPlayerID]+" items to your island!";
+			GazeMsgText.text =  "Bring all '"+islandNames[CharacterPlayerID]+"' items to your island!";
 		}
 
 		//GazeMsgText =  "";
@@ -145,18 +148,15 @@ public class Main : MonoBehaviour {
         //init player position
         foreach (Player player in Players) {
             player.playerPos = startPoint[player.playerID];
+			GazeIslandText.text =  "You are here:\n"+islandNames[Players[CharacterPlayerID].curIsland]+" Island";
         }
     }
-
-    // 0-3 food
-    // 4-7 tech
-    // 8-11 plants
-    // 12-15 stuff
 
 	public void ProcessShuffleData(string data){
 		spawnList = new int[16];
 
 		int count = 0;
+
 		foreach(var s in data.Split(',')) {
 	        int num;
 	        if (int.TryParse(s, out num)){
@@ -200,16 +200,27 @@ public class Main : MonoBehaviour {
 
     public void tryPickObj(){
     //print("try");
+		
     	if (focusItem != -1) {
-			Items[focusItem].pickedById = CharacterPlayerID;
-			curItem = focusItem;
-			Items[focusItem].UpdateItem();
-			SndScript.PlayAudio(SndScript.pick);
+			//print("pci: "+focusItem);
+
+			if (Items[focusItem].pickedById == -1){
+				//server beschied sagen, dass ich das item jetzt habe
+				ServerScript.UpdateItems (focusItem, Items[focusItem].itemPos, Items[focusItem].curIsland, CharacterPlayerID);
+				SndScript.PlayAudio(SndScript.pick);
+			}
+
+			//Items[focusItem].pickedById = CharacterPlayerID;
+			// curItem = focusItem;
+			//Items[focusItem].UpdateItem();
     	}
     }
 
     public void dropObj(){
-		Items[curItem].pickedById = -1;
+		//print("drop: "+curItem);
+
+		//Items[curItem].pickedById = -1;
+		ServerScript.UpdateItems (curItem, Items[curItem].transform.position, Items[curItem].curIsland, -1);
 		curItem = -1;
 		SndScript.PlayAudio(SndScript.drop);
     }

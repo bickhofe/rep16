@@ -36,7 +36,7 @@ public class ServerComm : MonoBehaviour {
         JSONObject injson = inmsg.data as JSONObject;
 
         //neue id sequence senden
-		MainScript.PlayerWon(injson["player"].str);
+		MainScript.PlayerWon(injson["island"].str);
         //print ("Shuffle: " + injson["shuffle"].str);
     }
 
@@ -67,14 +67,17 @@ public class ServerComm : MonoBehaviour {
 
     //komplette item update (16mal) oder einzel update
     void GotItems(SocketIOEvent inmsg) {
-       	Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
+
+       	//Debug.Log("[SocketIO] Item data received: " + inmsg.name + " " + inmsg.data);
+
 		int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; int tmpIsland = -1; int tmpPickID = -1;
 
         JSONObject injson = inmsg.data as JSONObject;
 
-		int.TryParse(injson["itemId"].str, out tmpID);
+		//int.TryParse(injson["itemId"].str, out tmpID);
 
-		//tmpID = int.Parse(injson["itemId"].str);
+		tmpID = int.Parse(injson["itemCode"].str);
+
 		tmpX = float.Parse(injson["itemPosX"].str);
 		tmpY = float.Parse(injson["itemPosY"].str);
 		tmpZ = float.Parse(injson["itemPosZ"].str);
@@ -86,10 +89,6 @@ public class ServerComm : MonoBehaviour {
 		MainScript.Items[tmpID].pickedById = tmpPickID;
 
 		MainScript.Items[tmpID].updatePos = true;
-
-        //print("Item:->" + injson["itemId"].str +" CurIsland "+ injson["itemCurIsland"].str 
-        //    + " PickID" + injson["itemCurIsland"].str + " x " + injson["itemPosX"].str + " y " 
-        //    + injson["itemPosY"].str + " z " + injson["itemPosZ"].str);
     }
 
     void GotPlayerPosData(SocketIOEvent inmsg) {
@@ -118,7 +117,6 @@ public class ServerComm : MonoBehaviour {
             //GetShuffle();
 			//MainScript.UpdateCharacterID(1);
 			GetCharacter();
-
         }
 
         ////Mouse Click
@@ -155,6 +153,7 @@ public class ServerComm : MonoBehaviour {
 		message.Add("itemPosZ", Math.Round(pos.z,2).ToString());
 		message.Add("itemCurIsland", curIsland.ToString());
 		message.Add("itemPickId", pickedID.ToString());
+		message.Add("itemCode", ID.ToString());
         socket.Emit("onUpdateItem", new JSONObject(message));
     }
 

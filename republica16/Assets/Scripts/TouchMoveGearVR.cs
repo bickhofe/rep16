@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class TouchMoveGearVR : MonoBehaviour {
 
@@ -73,9 +72,9 @@ public class TouchMoveGearVR : MonoBehaviour {
 			doubleClick = false;
 		}
 
-		if (Input.GetButton("Fire1") && !doubleClick) {
+		if (Input.GetButton("Fire3") && !doubleClick) {
 			doubleClick = true;
-		} else if (Input.GetButton("Fire1") && doubleClick && canJump) {
+		} else if (Input.GetButton("Fire3") && doubleClick && canJump) {
 			PickDropObject ();
 			doubleClick = false;
 		}
@@ -87,15 +86,6 @@ public class TouchMoveGearVR : MonoBehaviour {
 				doubleClick = false;
 				time = 0;
 			}
-		}
-
-		//reset
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			SceneManager.LoadScene("titlescreen");
-//			rb.velocity = Vector3.zero;
-//			rb.angularVelocity = Vector3.zero;
-//			transform.position = new Vector3 (1.6f, 1f, -11.3f);
-//			transform.eulerAngles = Vector3.zero;
 		}
 
 		//fall from cliff
@@ -137,8 +127,12 @@ public class TouchMoveGearVR : MonoBehaviour {
 		if (GearVRMode) {
 			dirZ = (1280 - Input.mousePosition.x) / 300; //dirX = (720 - Input.mousePosition.y) / 300;
 		} else {
-			dirZ = Input.GetAxis ("Vertical");
+			//dirZ = Input.GetAxis ("Vertical");
+			dirZ = Input.GetAxis ("Horizontal")*-1;
+			if (Input.GetKey("space")) dirZ = .2f;
 		}
+
+
 
 		Vector3 dir = Quaternion.Euler(new Vector3 (0,MainScript.MainCam.transform.localEulerAngles.y,0)) * Vector3.forward;
         transform.position += dirZ * dir * force;
@@ -166,5 +160,7 @@ public class TouchMoveGearVR : MonoBehaviour {
         rb.angularVelocity = Vector3.zero;
         transform.position = teleportPos;
         transform.eulerAngles = Vector3.zero;
+
+		MainScript.GazeIslandText.text =  "You are here:\n"+MainScript.islandNames[MainScript.Players[MainScript.CharacterPlayerID].curIsland]+" Island";
     }
 }

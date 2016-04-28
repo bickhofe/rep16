@@ -25,10 +25,10 @@ public class LookAt : MonoBehaviour {
         RaycastHit hit;
 		if (Physics.Raycast (MainScript.MainCam.transform.position, MainScript.MainCam.transform.forward, out hit, 4)) {
 			
-			print ("hit: " + hit.collider.name);
+			//print ("hit: " + hit.collider.name);
 
 			if (hit.collider.tag == "Item") {
-				print ("Item found!");
+				//print ("Item found!");
 
 				Gaze.sizeDelta = new Vector2 (15, 15);
 

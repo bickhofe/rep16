@@ -26,18 +26,29 @@ public class Item : MonoBehaviour
     }
 
     void Update() {
+
 		if (updatePos) {
+			//print("->"+pickedById);
 			transform.position = itemPos;
+			rb.isKinematic = false;
+			if (pickedById == MainScript.CharacterPlayerID) MainScript.curItem = itemID;
 			updatePos = false;
 		}
 
 		if (pickedById != -1) {
 			rb.useGravity = false;
-			Transform CamTransform =  MainScript.MainCam.transform;
-			transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;
 
-			//Transform PlayerTransform =  MainScript.Players[MainScript.CharacterPlayerID].transform;
-			//transform.position = new Vector3(PlayerTransform.position.x,1,PlayerTransform.position.z) + PlayerTransform.forward*2;
+			if (pickedById == MainScript.CharacterPlayerID) {
+				//wenn ich das item trage
+				Transform CamTransform =  MainScript.MainCam.transform;
+				transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;
+			} else {
+				//wenn jemand anders das item trägt
+				transform.position = new Vector3(MainScript.Players[pickedById].transform.position.x,1,MainScript.Players[pickedById].transform.position.z) + MainScript.Players[pickedById].transform.forward*2;
+			}
+
+			//Transform CamTransform =  MainScript.MainCam.transform;
+			//transform.position = new Vector3(CamTransform.position.x,1,CamTransform.position.z) + CamTransform.forward*2;
 
 			if (transform.localPosition.y < -6) transform.localPosition = new Vector3(transform.localPosition.x,-6,transform.localPosition.z);
 
@@ -55,8 +66,14 @@ public class Item : MonoBehaviour
 		if (pickedById == -1) transform.position = itemPos;
 	}
 
+	void OnCollisionEnter(Collision Island) {
+		//print ("Hit ground!");
+		itemPos = transform.position;
+		MainScript.ServerScript.UpdateItems (itemID, itemPos, curIsland, pickedById);
+	}
+
     void OnTriggerEnter(Collider Portal) {
-		print ("Enter portal");
+		//print ("Enter portal");
 
 		// ID der Insel des Colliders finden
 		int IslandID = Portal.transform.parent.GetComponent<Island> ().IslandID;
