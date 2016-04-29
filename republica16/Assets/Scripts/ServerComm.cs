@@ -105,7 +105,7 @@ public class ServerComm : MonoBehaviour {
         //// daten empfangen und an die playerscripte weiterleiten
         MainScript.Players[tmpID].playerPos = new Vector3 (tmpX,tmpY,tmpZ);
 		MainScript.Players[tmpID].playerAngle = tmpAng;
-        MainScript.Players [tmpID].updatePos = true;
+        MainScript.Players[tmpID].updatePos = true;
         //MainScript.debugText = tmpID.ToString();
     }
 

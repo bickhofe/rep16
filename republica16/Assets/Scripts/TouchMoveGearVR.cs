@@ -161,6 +161,6 @@ public class TouchMoveGearVR : MonoBehaviour {
         transform.position = teleportPos;
         transform.eulerAngles = Vector3.zero;
 
-		MainScript.GazeIslandText.text =  "You are here:\n"+MainScript.islandNames[MainScript.Players[MainScript.CharacterPlayerID].curIsland]+" Island";
+		MainScript.GazeIslandText.text =  MainScript.islandNames[MainScript.Players[MainScript.CharacterPlayerID].curIsland]+" Island";
     }
 }

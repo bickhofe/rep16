@@ -14,6 +14,8 @@ public class Main : MonoBehaviour {
 	Text GazeTimeText;
 	Text GazeMsgText;
 	public Text GazeIslandText;
+	public Text hudCharacterType;
+	public GameObject[] Selfies;
 
     //comm
 	public ServerComm ServerScript;
@@ -47,7 +49,7 @@ public class Main : MonoBehaviour {
     public int pickId = -1;
 
     //spielstatus
-	public string tempStatus;
+	public string tempStatus = "";
     public string gameStatus = ""; 
 
     //inital item positionen
@@ -77,6 +79,7 @@ public class Main : MonoBehaviour {
 		GazeTimeText = GameObject.Find("hudTime").GetComponent<Text>();
 		GazeMsgText = GameObject.Find("hudMessage").GetComponent<Text>();
 		GazeIslandText = GameObject.Find("hudIsland").GetComponent<Text>();
+		hudCharacterType = GameObject.Find("hudCharacterType").GetComponent<Text>();
     }
 
     void Update() {
@@ -89,12 +92,13 @@ public class Main : MonoBehaviour {
         	gameStatus = tempStatus;
 
         	//fragt initial UND bei wechsel von pause zu running einmal die neuen shuffled liste an
-        	if (gameStatus == "running") {
-        		//print("order shuffle");
+			if (gameStatus == "running" && DeviceId == 0) {
+        		print("order shuffle");
         		ServerScript.GetCharacter();
 				ServerScript.GetShuffle();
         	}
         }
+
 
 
         //timer 
@@ -104,6 +108,7 @@ public class Main : MonoBehaviour {
 
             // eigene position senden
 			if (CharacterPlayerID != -1) {
+				//print("->"+CharacterPlayerID);
 				ServerScript.SendPlayerPos (CharacterPlayerID, Players[CharacterPlayerID].playerPos, Players[CharacterPlayerID].playerAngle);
 			}
 
@@ -117,11 +122,14 @@ public class Main : MonoBehaviour {
 			GazeTimeText.text =  "Pause: "+time;
 			GazeMsgText.text =  "Please wait...";
 		} else {
-			GazeTimeText.text =  "Time: "+time;
-			GazeMsgText.text =  "Bring all '"+islandNames[CharacterPlayerID]+"' items to your island!";
-		}
+			GazeTimeText.text = time;
+			GazeMsgText.text =  "Bring all '"+islandNames[CharacterPlayerID]+"' \nto your island!";
+			hudCharacterType.text =  ""+islandNames[CharacterPlayerID]+"\nmonster";
 
-		//GazeMsgText =  "";
+			// selfie aktivieren
+			foreach (GameObject monster in Selfies) monster.SetActive(false);
+			Selfies[CharacterPlayerID].SetActive(true);
+		}
     }
 
     public void PlayerWon(string playerId){
@@ -132,6 +140,7 @@ public class Main : MonoBehaviour {
 
 		string[] ids = idlist.Split(',');
 		CharacterPlayerID = int.Parse(ids[DeviceId]);
+
 		Players[CharacterPlayerID].InitMonster();
 
 		//switch to specatror cam
@@ -148,7 +157,7 @@ public class Main : MonoBehaviour {
         //init player position
         foreach (Player player in Players) {
             player.playerPos = startPoint[player.playerID];
-			GazeIslandText.text =  "You are here:\n"+islandNames[Players[CharacterPlayerID].curIsland]+" Island";
+			GazeIslandText.text =  islandNames[Players[CharacterPlayerID].curIsland]+" Island";
         }
     }
 

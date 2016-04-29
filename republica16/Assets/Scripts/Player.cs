@@ -24,18 +24,14 @@ public class Player : MonoBehaviour {
         MainScript = GameObject.Find("Main").GetComponent<Main>();
 		col = GetComponent<Collider>();
 		Monster = transform.Find("Character/Monster").gameObject;
-		InitMonster();
+
+		Monster.SetActive(false); //macht den eigenen playercharacter unsichtbar
         curIsland = playerID;
     }
 
-    //macht den eigenen playercharacter unsichtbar
-    public void InitMonster(){
-		if (playerID != MainScript.CharacterPlayerID) {
-			Monster.SetActive(true);
-		} else {
-			Monster.SetActive(false);
-		}
-    }
+	public void InitMonster(){
+		Monster.SetActive(false);
+	}
 	
 	void Update() {
 		if (MainScript.CharacterPlayerID == playerID) {
@@ -49,6 +45,8 @@ public class Player : MonoBehaviour {
 			playerAngle = camRotation.y;
 		} else {
 			if (updatePos) {
+				print(playerID);
+				Monster.SetActive(true);
 				transform.position = playerPos;
 				transform.eulerAngles = new Vector3(0, playerAngle, 0); 
 				updatePos = false;

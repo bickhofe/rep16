@@ -8,12 +8,14 @@ public class LookAt : MonoBehaviour {
 
 	RectTransform Gaze;
 	Text GazeText;
+	Text GazeTextDescription;
 
 	void Start(){
 		MainScript = GameObject.Find("Main").GetComponent<Main>();
 
 		Gaze = GameObject.Find("Gaze").GetComponent<RectTransform>();
 		GazeText = GameObject.Find("GazeText").GetComponent<Text>();
+		GazeTextDescription = GameObject.Find("GazeTextDescription").GetComponent<Text>();
 	}
 
     void Update() {
@@ -35,16 +37,19 @@ public class LookAt : MonoBehaviour {
 				// get temp itemscript
 				Item ItemScript;
 
-				if (MainScript.focusItem == -1) {
+				if (MainScript.focusItem == -1 && MainScript.curItem == -1) {
 					ItemScript = hit.collider.GetComponent<Item> ();
 					MainScript.focusItem = ItemScript.itemID;
-					GazeText.text = hit.collider.name+": "+ItemScript.itemID + " " +ItemScript.curIsland;
+					//GazeText.text = hit.collider.name+": "+ItemScript.itemID + " " +ItemScript.curIsland;
+					GazeText.text = hit.collider.name;
+					GazeTextDescription.text = "Doubletap to \npick/drop";
 				}
 
 			} else {
 				//hit.collider.GetComponent<Item> ().pickedByPlayerID = -1;
 				Gaze.sizeDelta = new Vector2 (25,25);
 				GazeText.text = "";
+				GazeTextDescription.text = "";
 				MainScript.focusItem = -1;
 			}
 		} 
