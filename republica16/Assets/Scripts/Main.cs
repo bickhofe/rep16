@@ -23,7 +23,7 @@ public class Main : MonoBehaviour {
 	public Text winText;
 	public Text winTextInfo;
 
-	public string playerWon;
+	public string playerWon = "-1";
 	bool freshStart = true;
 
     //comm
@@ -100,7 +100,7 @@ public class Main : MonoBehaviour {
 		if (tempStatus == "running") {
 
 			if (freshStart) {
-				playerWon = "nobody";
+				playerWon = "-1";
 				freshStart = false;
 			}
 
@@ -114,15 +114,16 @@ public class Main : MonoBehaviour {
 			foreach (GameObject monster in WinnerSelfies) monster.SetActive(false);
 
 			//es gibt einen gewinner
-			if (playerWon != "nobody"){
+			if (playerWon != "-1"){
 				WinnerSelfies[int.Parse(playerWon)].SetActive(true);
 				winText.text = "the "+islandNames[int.Parse(playerWon)]+"\nmonster";
-				winTextInfo.text = "he brought all\nitems back nto his\nisland";
+				winTextInfo.text = "he brought all\nitems back to his\nisland";
 			} else { //gibt keinen gewinner
 				winText.text = "\nnobody";
 				winTextInfo.text = "no monster brought\nall items home";
 			}
 
+			foreach (Player player in Players) player.Monster.SetActive (false);
 		}
 
 
@@ -164,12 +165,14 @@ public class Main : MonoBehaviour {
 			GazeMsgText.text =  "Please wait...";
 		} else {
 			GazeTimeText.text = time;
-			GazeMsgText.text =  "Bring all '"+islandNames[CharacterPlayerID]+"' \nto your island!";
-			hudCharacterType.text =  ""+islandNames[CharacterPlayerID]+"\nmonster";
+			if (CharacterPlayerID != -1) {
+				GazeMsgText.text = "Bring all '" + islandNames [CharacterPlayerID] + "' \nto your island!";
+				hudCharacterType.text = "" + islandNames [CharacterPlayerID] + "\nmonster";
 
-			// selfie aktivieren
-			foreach (GameObject monster in Selfies) monster.SetActive(false);
-			Selfies[CharacterPlayerID].SetActive(true);
+				// selfie aktivieren
+				foreach (GameObject monster in Selfies) monster.SetActive (false);
+				Selfies [CharacterPlayerID].SetActive (true);
+			}
 		}
     }
 

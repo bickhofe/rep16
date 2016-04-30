@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
 	Vector3 camRotation;
 
 	bool restart = true;
-	GameObject Monster;
+	public GameObject Monster;
 
 	Collider col;
 
