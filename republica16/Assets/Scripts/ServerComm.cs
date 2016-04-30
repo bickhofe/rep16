@@ -36,8 +36,7 @@ public class ServerComm : MonoBehaviour {
         JSONObject injson = inmsg.data as JSONObject;
 
         //neue id sequence senden
-		MainScript.PlayerWon(injson["island"].str);
-        //print ("Shuffle: " + injson["shuffle"].str);
+		MainScript.playerWon = injson["island"].str;
     }
 
 	void GotCharacter(SocketIOEvent inmsg) {
@@ -60,7 +59,8 @@ public class ServerComm : MonoBehaviour {
 	void GotTimetick(SocketIOEvent inmsg) { //timer
         //Debug.Log("[SocketIO] Timer data received: " + inmsg.name + " " + inmsg.data);
         JSONObject injson = inmsg.data as JSONObject;
-		MainScript.tempStatus = injson["state"].str; 
+		MainScript.tempStatus = injson["state"].str;
+		//MainScript.tempStatus = "paused";
 		MainScript.UpdateTime(injson["tick"].str);
 		//print ("State: " + injson["state"].str + "- tick " + injson["tick"].str );
        }

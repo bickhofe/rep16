@@ -8,8 +8,6 @@ public class TouchMoveGearVR : MonoBehaviour {
 	//sound
 	public SoundFX SndScript;
 
-    //public GameObject MainCam;
-
 	public bool GearVRMode = false;
 	//TextMesh debugText;
 

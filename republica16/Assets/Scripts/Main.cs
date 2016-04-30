@@ -16,6 +16,15 @@ public class Main : MonoBehaviour {
 	public Text GazeIslandText;
 	public Text hudCharacterType;
 	public GameObject[] Selfies;
+	public GameObject[] WinnerSelfies;
+
+	public GameObject IngameCanvas;
+	public GameObject PauseCanvas;
+	public Text winText;
+	public Text winTextInfo;
+
+	public string playerWon;
+	bool freshStart = true;
 
     //comm
 	public ServerComm ServerScript;
@@ -80,9 +89,43 @@ public class Main : MonoBehaviour {
 		GazeMsgText = GameObject.Find("hudMessage").GetComponent<Text>();
 		GazeIslandText = GameObject.Find("hudIsland").GetComponent<Text>();
 		hudCharacterType = GameObject.Find("hudCharacterType").GetComponent<Text>();
+
+
     }
 
     void Update() {
+
+		//siwtch canvas on pause
+		print(tempStatus);
+		if (tempStatus == "running") {
+
+			if (freshStart) {
+				playerWon = "nobody";
+				freshStart = false;
+			}
+
+			if (!IngameCanvas.activeSelf) IngameCanvas.SetActive(true);
+			PauseCanvas.SetActive(false);
+		} else {
+			IngameCanvas.SetActive(false);
+			if (!PauseCanvas.activeSelf) PauseCanvas.SetActive(true);
+
+			//reset selfies
+			foreach (GameObject monster in WinnerSelfies) monster.SetActive(false);
+
+			//es gibt einen gewinner
+			if (playerWon != "nobody"){
+				WinnerSelfies[int.Parse(playerWon)].SetActive(true);
+				winText.text = "the "+islandNames[int.Parse(playerWon)]+"\nmonster";
+				winTextInfo.text = "he brought all\nitems back nto his\nisland";
+			} else { //gibt keinen gewinner
+				winText.text = "\nnobody";
+				winTextInfo.text = "no monster brought\nall items home";
+			}
+
+		}
+
+
 		//reset
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			SceneManager.LoadScene("titlescreen");
@@ -100,11 +143,9 @@ public class Main : MonoBehaviour {
         }
 
 
-
         //timer 
         if (time < updateTime) time += Time.deltaTime;
         else {
-			//print("update");
 
             // eigene position senden
 			if (CharacterPlayerID != -1) {
@@ -132,9 +173,9 @@ public class Main : MonoBehaviour {
 		}
     }
 
-    public void PlayerWon(string playerId){
-    	print("Player"+playerId+ "won!");
-    }
+//    public void PlayerWon(string playerId){
+//    	print("Player"+playerId+ "won!");
+//    }
 
     public void UpdateCharacterID(string idlist){
 
