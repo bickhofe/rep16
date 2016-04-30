@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: aa733d908d58a444da39031b34227f6e
+timeCreated: 1448702860
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Arm_L
+    100002: Arm_L_end
+    100004: Arm_R
+    100006: Arm_R_end
+    100008: BodyHi
+    100010: BodyHi_end
+    100012: BodyLow
+    100014: ControlArm_L
+    100016: ControlArm_L_end
+    100018: ControlArm_R
+    100020: ControlArm_R_end
+    100022: ControlHead
+    100024: ControlHead_end
+    100026: ControlLeg_L
+    100028: ControlLeg_L_end
+    100030: ControlLeg_R
+    100032: ControlLeg_R_end
+    100034: Hip_L
+    100036: Hip_R
+    100038: Leg_L
+    100040: Leg_L_end
+    100042: Leg_R
+    100044: Leg_R_end
+    100046: Pivot
+    100048: Position
+    100050: Q-Mon1
+    100052: //RootNode
+    100054: Q-Mon1_Objt
+    100056: Shoulder_L
+    100058: Shoulder_R
+    400000: Arm_L
+    400002: Arm_L_end
+    400004: Arm_R
+    400006: Arm_R_end
+    400008: BodyHi
+    400010: BodyHi_end
+    400012: BodyLow
+    400014: ControlArm_L
+    400016: ControlArm_L_end
+    400018: ControlArm_R
+    400020: ControlArm_R_end
+    400022: ControlHead
+    400024: ControlHead_end
+    400026: ControlLeg_L
+    400028: ControlLeg_L_end
+    400030: ControlLeg_R
+    400032: ControlLeg_R_end
+    400034: Hip_L
+    400036: Hip_R
+    400038: Leg_L
+    400040: Leg_L_end
+    400042: Leg_R
+    400044: Leg_R_end
+    400046: Pivot
+    400048: Position
+    400050: //RootNode
+    400052: Q-Mon1
+    400054: Q-Mon1_Objt
+    400056: Shoulder_L
+    400058: Shoulder_R
+    2300000: Q-Mon1_Objt
+    3300000: Q-Mon1_Objt
+    4300000: Q-Mon1_Objt
+    7400000: Q-Mon1|Q-Mon_1 Run
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Q-Mon1_Objt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: '
+
+      Imported file ''Q-Mon1'' conversion failed: Required human bone ''LeftFoot''
+      not found
+
+
+'
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Q-Mon1|Q-Mon_1 Run
+      takeName: Q-Mon1|Q-Mon_1 Run
+      firstFrame: 0
+      lastFrame: 18
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 1
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Q-Mon1
+        weight: 1
+      - path: Q-Mon1/Position
+        weight: 1
+      - path: Q-Mon1/Position/ControlArm_L
+        weight: 1
+      - path: Q-Mon1/Position/ControlArm_L/ControlArm_L_end
+        weight: 1
+      - path: Q-Mon1/Position/ControlArm_R
+        weight: 1
+      - path: Q-Mon1/Position/ControlArm_R/ControlArm_R_end
+        weight: 1
+      - path: Q-Mon1/Position/ControlHead
+        weight: 1
+      - path: Q-Mon1/Position/ControlHead/ControlHead_end
+        weight: 1
+      - path: Q-Mon1/Position/ControlLeg_L
+        weight: 1
+      - path: Q-Mon1/Position/ControlLeg_L/ControlLeg_L_end
+        weight: 1
+      - path: Q-Mon1/Position/ControlLeg_R
+        weight: 1
+      - path: Q-Mon1/Position/ControlLeg_R/ControlLeg_R_end
+        weight: 1
+      - path: Q-Mon1/Position/Pivot
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/BodyHi
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/BodyHi/BodyHi_end
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/Shoulder_L
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/Shoulder_L/Arm_L
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/Shoulder_L/Arm_L/Arm_L_end
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/Shoulder_R
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/Shoulder_R/Arm_R
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/BodyLow/Shoulder_R/Arm_R/Arm_R_end
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/Hip_L
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/Hip_L/Leg_L
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/Hip_L/Leg_L/Leg_L_end
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/Hip_R
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/Hip_R/Leg_R
+        weight: 1
+      - path: Q-Mon1/Position/Pivot/Hip_R/Leg_R/Leg_R_end
+        weight: 1
+      - path: Q-Mon1_Objt
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 0
+  importAnimation: 1
+  copyAvatar: 1
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,137 @@
+fileFormatVersion: 2
+guid: 433bbd891c9c8ea4382c1b36dcef67ce
+timeCreated: 1448702860
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Body
+    100002: Body_end
+    100004: Pivot
+    100006: Position
+    100008: Q-Mon 8_Objt
+    100010: //RootNode
+    100012: Q-Mon8
+    100014: Squash
+    100016: Squash_end
+    400000: Body
+    400002: Body_end
+    400004: Pivot
+    400006: Position
+    400008: Q-Mon 8_Objt
+    400010: //RootNode
+    400012: Q-Mon8
+    400014: Squash
+    400016: Squash_end
+    4300000: Q-Mon 8_Objt
+    7400000: Q-Mon8|Q-Mon_8 Run
+    9500000: //RootNode
+    13700000: Q-Mon 8_Objt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Q-Mon8|Q-Mon_8 Run
+      takeName: Q-Mon8|Q-Mon_8 Run
+      firstFrame: 0
+      lastFrame: 18
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Q-Mon 8_Objt
+        weight: 1
+      - path: Q-Mon8
+        weight: 1
+      - path: Q-Mon8/Position
+        weight: 1
+      - path: Q-Mon8/Position/Pivot
+        weight: 1
+      - path: Q-Mon8/Position/Pivot/Body
+        weight: 1
+      - path: Q-Mon8/Position/Pivot/Body/Body_end
+        weight: 1
+      - path: Q-Mon8/Position/Squash
+        weight: 1
+      - path: Q-Mon8/Position/Squash/Squash_end
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

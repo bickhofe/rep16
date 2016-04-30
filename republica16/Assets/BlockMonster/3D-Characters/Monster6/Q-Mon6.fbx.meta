@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 1f893abb60250624cad30214f38e7bf4
+timeCreated: 1448702859
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Bone
+    100002: Bone_end
+    100004: Control_Leg_L
+    100006: Control_Leg_L_end
+    100008: Control_Leg_R
+    100010: Control_Leg_R_end
+    100012: Control_SS
+    100014: Control_SS_end
+    100016: Hip_L
+    100018: Hip_R
+    100020: Leg_L
+    100022: Leg_L_end
+    100024: Leg_R
+    100026: Leg_R_end
+    100028: Pivot
+    100030: Position
+    100032: Q-Mon6
+    100034: //RootNode
+    100036: Q-Mon6_Objt
+    400000: Bone
+    400002: Bone_end
+    400004: Control_Leg_L
+    400006: Control_Leg_L_end
+    400008: Control_Leg_R
+    400010: Control_Leg_R_end
+    400012: Control_SS
+    400014: Control_SS_end
+    400016: Hip_L
+    400018: Hip_R
+    400020: Leg_L
+    400022: Leg_L_end
+    400024: Leg_R
+    400026: Leg_R_end
+    400028: Pivot
+    400030: Position
+    400032: //RootNode
+    400034: Q-Mon6
+    400036: Q-Mon6_Objt
+    4300000: Q-Mon6_Objt
+    7400000: Q-Mon6|Q-Mon_6 Run
+    9500000: //RootNode
+    13700000: Q-Mon6_Objt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Q-Mon6|Q-Mon_6 Run
+      takeName: Q-Mon6|Q-Mon_6 Run
+      firstFrame: 0
+      lastFrame: 18
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Q-Mon6
+        weight: 1
+      - path: Q-Mon6/Position
+        weight: 1
+      - path: Q-Mon6/Position/Control_Leg_L
+        weight: 1
+      - path: Q-Mon6/Position/Control_Leg_L/Control_Leg_L_end
+        weight: 1
+      - path: Q-Mon6/Position/Control_Leg_R
+        weight: 1
+      - path: Q-Mon6/Position/Control_Leg_R/Control_Leg_R_end
+        weight: 1
+      - path: Q-Mon6/Position/Control_SS
+        weight: 1
+      - path: Q-Mon6/Position/Control_SS/Control_SS_end
+        weight: 1
+      - path: Q-Mon6/Position/Pivot
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Bone
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Bone/Bone_end
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Hip_L
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Hip_L/Leg_L
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Hip_L/Leg_L/Leg_L_end
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Hip_R
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Hip_R/Leg_R
+        weight: 1
+      - path: Q-Mon6/Position/Pivot/Hip_R/Leg_R/Leg_R_end
+        weight: 1
+      - path: Q-Mon6_Objt
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

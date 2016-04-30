@@ -9306,6 +9306,10 @@ Prefab:
       propertyPath: m_Name
       value: CardboardCam
       objectReference: {fileID: 0}
+    - target: {fileID: 2000004, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
   m_IsPrefabParent: 0
