@@ -609,6 +609,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 92092626}
+--- !u!1 &93421348 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100004, guid: 691bf3e71b387435bb6304e28d671b2f, type: 2}
+  m_PrefabInternal: {fileID: 1965546597}
 --- !u!1001 &94965379
 Prefab:
   m_ObjectHideFlags: 0
@@ -1326,7 +1330,7 @@ MonoBehaviour:
   state: 
   DeviceId: 0
   CharacterPlayerID: -1
-  MainCam: {fileID: 1318284693}
+  MainCam: {fileID: 93421348}
   CamContainer: {fileID: 1598331814}
   SpectatorCam: {fileID: 1598444126}
   islandNames:
@@ -3496,7 +3500,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 113106, guid: 147a0ee7cc2314633a42ba43dde568c8, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 147a0ee7cc2314633a42ba43dde568c8, type: 2}
@@ -6827,7 +6831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1318284694
 Transform:
   m_ObjectHideFlags: 0
@@ -9170,6 +9174,7 @@ GameObject:
   - 4: {fileID: 1598331815}
   - 65: {fileID: 1598331818}
   - 54: {fileID: 1598331816}
+  - 114: {fileID: 1598331819}
   - 114: {fileID: 1598331817}
   m_Layer: 9
   m_Name: CamContainer
@@ -9214,14 +9219,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1598331814}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4b738b6c0948b334b987ecb815f1f4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MainScript: {fileID: 0}
   SndScript: {fileID: 0}
-  GearVRMode: 1
+  GearVRMode: 0
   doubleClickDelay: 1
   canJump: 0
   jumpForce: 250
@@ -9238,6 +9243,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1598331819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1598331814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563359e326cc16d4f9b3f014293f1b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainScript: {fileID: 0}
+  SndScript: {fileID: 0}
+  force: 0.1
+  walkSpeed: 0.2
 --- !u!1 &1598444126
 GameObject:
   m_ObjectHideFlags: 0
@@ -10284,7 +10304,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 2800, y: 1600}
+  m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -10300,7 +10320,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 2
   m_RenderMode: 1
-  m_Camera: {fileID: 1318284698}
+  m_Camera: {fileID: 2028016960}
   m_PlaneDistance: 0.5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -11009,7 +11029,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 2800, y: 1600}
+  m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -11025,7 +11045,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 2
   m_RenderMode: 1
-  m_Camera: {fileID: 1318284698}
+  m_Camera: {fileID: 2028016960}
   m_PlaneDistance: 0.5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -11209,6 +11229,11 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 6ccbe3e74b6257143a8997cd809760fa, type: 3}
   m_PrefabInternal: {fileID: 2026221050}
+--- !u!20 &2028016960 stripped
+Camera:
+  m_PrefabParentObject: {fileID: 2000004, guid: 691bf3e71b387435bb6304e28d671b2f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1965546597}
 --- !u!1 &2035561501
 GameObject:
   m_ObjectHideFlags: 0

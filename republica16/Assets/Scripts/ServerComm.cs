@@ -92,7 +92,7 @@ public class ServerComm : MonoBehaviour {
     }
 
     void GotPlayerPosData(SocketIOEvent inmsg) {
-        Debug.Log("[SocketIO] Pos data received: " + inmsg.name + " " + inmsg.data);
+        //Debug.Log("[SocketIO] Pos data received: " + inmsg.name + " " + inmsg.data);
         int tmpID = -1; float tmpX = 1; float tmpY = 1; float tmpZ = 1; float tmpAng = 0;
 
         JSONObject injson = inmsg.data as JSONObject;

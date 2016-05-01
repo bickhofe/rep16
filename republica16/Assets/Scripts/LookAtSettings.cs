@@ -19,7 +19,9 @@ public class LookAtSettings : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			if (curID == 4) curID = -1;
 			PlayerPrefs.SetInt("DeviceID",curID);
-			SceneManager.LoadScene("mainscene");
+			//SceneManager.LoadScene("mainscene");
+			SceneManager.LoadScene("mainscene_cardboard");
+
 		} 
 
         //debug

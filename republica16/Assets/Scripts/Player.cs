@@ -35,6 +35,7 @@ public class Player : MonoBehaviour {
 	
 	void Update() {
 		if (MainScript.CharacterPlayerID == playerID) {
+
 			//position von camera holen
 			transform.position = MainScript.CamContainer.transform.position;
 			camRotation = MainScript.MainCam.transform.eulerAngles;

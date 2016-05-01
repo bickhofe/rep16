@@ -96,7 +96,6 @@ public class Main : MonoBehaviour {
     void Update() {
 
 		//siwtch canvas on pause
-		print(tempStatus);
 		if (tempStatus == "running") {
 
 			if (freshStart) {
@@ -161,6 +160,7 @@ public class Main : MonoBehaviour {
 	public void UpdateTime(string time){
 		//print("stat"+gameStatus);
 		if (gameStatus == "paused") {
+			CharacterPlayerID = -1;
 			GazeTimeText.text =  "Pause: "+time;
 			GazeMsgText.text =  "Please wait...";
 		} else {
@@ -181,10 +181,10 @@ public class Main : MonoBehaviour {
 //    }
 
     public void UpdateCharacterID(string idlist){
-
+		
 		string[] ids = idlist.Split(',');
 		CharacterPlayerID = int.Parse(ids[DeviceId]);
-
+		print ("->" + CharacterPlayerID);
 		Players[CharacterPlayerID].InitMonster();
 
 		//switch to specatror cam
