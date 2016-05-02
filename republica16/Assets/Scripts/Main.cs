@@ -129,6 +129,7 @@ public class Main : MonoBehaviour {
 
 		//reset
 		if (Input.GetKeyDown(KeyCode.Escape)) {
+			//SceneManager.LoadScene("titlescreen_cardboard");
 			SceneManager.LoadScene("titlescreen");
 		}
 

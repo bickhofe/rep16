@@ -69,7 +69,7 @@ public class Item : MonoBehaviour
 	void OnCollisionEnter(Collision Island) {
 		//print ("Hit ground!");
 		itemPos = transform.position;
-		MainScript.ServerScript.UpdateItems (itemID, itemPos, curIsland, pickedById);
+		if (MainScript.DeviceId == 0) MainScript.ServerScript.UpdateItems (itemID, itemPos, curIsland, pickedById);
 	}
 
     void OnTriggerEnter(Collider Portal) {
@@ -87,7 +87,7 @@ public class Item : MonoBehaviour
 		else if (IslandID == 3)
 			curIsland = 1;
 
-		TeleportItem (MainScript.startPoint [curIsland]);
+		if (MainScript.DeviceId == 0) TeleportItem (MainScript.startPoint [curIsland]);
 		SndScript.PlayAudio(SndScript.senditem);
 	}
 

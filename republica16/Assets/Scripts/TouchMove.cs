@@ -71,7 +71,7 @@ public class TouchMove : MonoBehaviour {
 		}
 
 		if (transform.position.y < -25) {
-			TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
+			if (MainScript.DeviceId != -1) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
 			SndScript.PlayAudio(SndScript.drown);
 			drown = false;
 		}
@@ -119,7 +119,7 @@ public class TouchMove : MonoBehaviour {
 		else if (IslandID == 2) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 0;
 		else if (IslandID == 3) MainScript.Players[MainScript.CharacterPlayerID].curIsland = 1;
 
-		TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
+		if (MainScript.DeviceId != -1) TeleportPlayer(MainScript.startPoint[MainScript.Players[MainScript.CharacterPlayerID].curIsland]);
 
 		SndScript.PlayAudio(SndScript.tuberide);
     }
