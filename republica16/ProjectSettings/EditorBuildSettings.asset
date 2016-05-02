@@ -7,6 +7,8 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/titlescreen.unity
+  - enabled: 0
+    path: Assets/Scenes/titlescreen_cardboard.unity
   - enabled: 1
     path: Assets/Scenes/mainscene.unity
   - enabled: 0
