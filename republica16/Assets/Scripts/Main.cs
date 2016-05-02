@@ -100,6 +100,7 @@ public class Main : MonoBehaviour {
 
 			if (freshStart) {
 				playerWon = "-1";
+
 				freshStart = false;
 			}
 
@@ -245,9 +246,10 @@ public class Main : MonoBehaviour {
             }
         }
 
-        // Initialer Post der item positionen an den server
+        // Initialer Post der item positionen an den server !! darf nur device 0 senden
 		for (int i=0; i<16; i++){				
-			ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickedById);
+			//ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, Items[i].pickedById);
+			if (DeviceId == 0) ServerScript.UpdateItems (i, Items[i].itemPos, Items[i].curIsland, -1);
 		}
     }
 
